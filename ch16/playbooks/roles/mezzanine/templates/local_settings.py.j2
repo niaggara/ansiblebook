@@ -1,0 +1,39 @@
+# This file is exec'd from settings.py, so it has access to and can
+# modify all the variables in settings.py.
+
+# Make these unique, and don't share it with anybody.
+SECRET_KEY = "{{ secret_key }}"
+NEVERCACHE_KEY = "{{ nevercache_key }}"
+ALLOWED_HOSTS = [{% for domain in domains %}"{{ domain }}",{% endfor %}]
+
+DATABASES = {
+    "default": {
+        # Ends with "postgresql_psycopg2", "mysql", "sqlite3" or "oracle".
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        # DB name or path to database file if using sqlite3.
+        "NAME": "{{ mezzanine_proj_name }}",
+        # Not used with sqlite3.
+        "USER": "{{ mezzanine_proj_name }}",
+        # Not used with sqlite3.
+        "PASSWORD": "{{ db_pass }}",
+        # Set to empty string for localhost. Not used with sqlite3.
+        "HOST": "{{ database_host }}",
+        # Set to empty string for default. Not used with sqlite3.
+        "PORT": "",
+    }
+}
+
+CACHE_MIDDLEWARE_KEY_PREFIX = "{{ mezzanine_proj_name }}"
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.memcached.MemcachedCache",
+        "LOCATION": "127.0.0.1:11211",
+    }
+}
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+
+TWITTER_ACCESS_TOKEN_KEY = "{{ twitter_access_token_key }}"
+TWITTER_ACCESS_TOKEN_SECRET = "{{ twitter_access_token_secret }}"
+TWITTER_CONSUMER_KEY = "{{ twitter_consumer_key }}"
+TWITTER_CONSUMER_SECRET = "{{ twitter_consumer_secret }}"
+TWITTER_DEFAULT_QUERY = "from:ansiblebook"

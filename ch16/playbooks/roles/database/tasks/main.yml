@@ -1,0 +1,55 @@
+---
+
+- name: install apt packages
+  become: true
+  apt:
+    update_cache: true
+    cache_valid_time: 3600
+    pkg:
+      - acl  # for become_user: postgres
+      - libpq-dev
+      - postgresql
+      - python3-psycopg2
+
+- name: copy configuration file
+  become: true
+  template:
+    src: postgresql.conf
+    dest: /etc/postgresql/12/main/postgresql.conf
+    owner: postgres
+    group: postgres
+    mode: 0644
+  notify: restart postgres
+
+- name: copy client authentication configuration file
+  become: true
+  copy:
+    src: pg_hba.conf
+    dest: /etc/postgresql/12/main/pg_hba.conf
+    owner: postgres
+    group: postgres
+    mode: 0640
+  notify: restart postgres
+
+- name: create project locale
+  become: true
+  locale_gen:
+    name: "{{ locale }}"
+
+- name: create a DB user
+  become: true
+  become_user: postgres
+  postgresql_user:
+    name: "{{ database_user }}"
+    password: "{{ db_pass }}"
+
+- name: create the database
+  become: true
+  become_user: postgres
+  postgresql_db:
+    name: "{{ database_name }}"
+    owner: "{{ database_user }}"
+    encoding: UTF8
+    lc_ctype: "{{ locale }}"
+    lc_collate: "{{ locale }}"
+    template: template0

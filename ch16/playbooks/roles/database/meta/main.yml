@@ -1,0 +1,17 @@
+---
+
+galaxy_info:
+  role_name: database
+  namespace: ansiblebook
+  author: Bas Meijer
+  description: PostgreSQL on one Ubuntu box
+  company: O'Reilly
+  license: license (MIT)
+  min_ansible_version: 2.9
+  platforms:
+    - name: Ubuntu
+      versions:
+        - 20
+
+  galaxy_tags: ['databases']
+dependencies: []

@@ -1,0 +1,6 @@
+[all]
+web ansible_host=192.168.33.10
+db ansible_host=192.168.33.11
+[all:vars]
+ansible_user=vagrant
+

@@ -1,0 +1,65 @@
+---
+# this is a Goss tests file.
+file:
+  /etc/security/access.conf:
+    exists: true
+    mode: "0644"
+    owner: root
+    group: root
+    filetype: file
+    contains: []
+  /etc/ssh/moduli:
+    exists: true
+    mode: "0644"
+    owner: root
+    group: root
+    filetype: file
+    contains: []
+  /etc/ssh/ssh_host_ecdsa_key:
+    exists: true
+    mode: "0666"
+  /etc/ssh/ssh_host_rsa_key:
+    exists: true
+    mode: "0666"
+  /etc/ssh/ssh_host_ed25519_key:
+    exists: true
+    mode: "0600"
+    owner: root
+    filetype: file
+    contains: []
+  /etc/ssh/ssh_host_rsa_key:
+    exists: true
+    owner: root
+    contains: []
+  /etc/ssh/ssh_host_rsa_key.pub:
+    exists: true
+    mode: "0644"
+    owner: root
+    group: root
+    contains:
+      - 'ssh-rsa '
+  {{ sshd_policy_file }}:
+    exists: true
+    owner: root
+    group: root
+    contains:
+      - Ciphers {{ Ciphers }}
+      - HostKeyAlgorithms {{ HostKeyAlgorithms }}
+      - KexAlgorithms {{ KexAlgorithms }}
+      - MACs {{ MACs }}
+package:
+  openssh-server:
+    installed: true
+port:
+  tcp:22:
+    listening: true
+service:
+  sshd:
+    enabled: true
+    running: true
+user:
+  sshd:
+    exists: true
+process:
+  sshd:
+    running: true

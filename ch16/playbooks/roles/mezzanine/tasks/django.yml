@@ -1,0 +1,93 @@
+---
+
+- name: create a logs directory
+  file:
+    path: "{{ ansible_env.HOME }}/logs"
+    state: directory
+    mode: 0755
+
+- name: check out the repository on the host
+  git:
+    repo: "{{ mezzanine_repo_url }}"
+    dest: "{{ mezzanine_proj_path }}"
+    version: master
+    accept_hostkey: true
+    update: false
+  tags:
+    - repo
+
+- name: create python3 virtualenv
+  pip:
+    name:
+      - pip
+      - wheel
+      - setuptools
+    state: latest
+    virtualenv: "{{ mezzanine_venv_path }}"
+    virtualenv_command: /usr/bin/python3 -m venv
+  tags:
+    - skip_ansible_lint
+
+- name: copy requirements.txt to home directory
+  copy:
+    src: "{{ files_src_path | default() }}requirements.txt"
+    dest: "{{ mezzanine_reqs_path }}"
+    mode: 0644
+
+- name: install packages listed in requirements.txt
+  pip:
+    virtualenv: "{{ mezzanine_venv_path }}"
+    requirements: "{{ mezzanine_reqs_path }}"
+
+- name: generate the settings file
+  template:
+    src: local_settings.py.j2
+    dest: "{{ mezzanine_settings_path }}/local_settings.py"
+    mode: 0750
+
+- name: apply migrations to create the database, collect static content
+  django_manage:
+    command: "{{ item }}"
+    app_path: "{{ mezzanine_proj_path }}"
+    virtualenv: "{{ mezzanine_venv_path }}"
+  with_items:
+    - migrate
+    - collectstatic
+
+- name: set the site id
+  script: setsite.py
+  environment:
+    PATH: "{{ mezzanine_venv_path }}/bin"
+    PROJECT_DIR: "{{ mezzanine_proj_path }}"
+    PROJECT_APP: "{{ mezzanine_proj_app }}"
+    DJANGO_SETTINGS_MODULE: "{{ mezzanine_proj_app }}.settings"
+    WEBSITE_DOMAIN: "{{ live_hostname }}"
+
+- name: set the admin password
+  script: setadmin.py
+  environment:
+    PATH: "{{ mezzanine_venv_path }}/bin"
+    PROJECT_DIR: "{{ mezzanine_proj_path }}"
+    PROJECT_APP: "{{ mezzanine_proj_app }}"
+    ADMIN_PASSWORD: "{{ admin_pass }}"
+
+- name: set the gunicorn config file
+  template:
+    src: gunicorn.conf.py.j2
+    dest: "{{ mezzanine_proj_path }}/gunicorn.conf.py"
+    mode: 0750
+
+- name: set the supervisor config file
+  become: true
+  template:
+    src: supervisor.conf.j2
+    dest: /etc/supervisor/conf.d/mezzanine.conf
+    mode: 0640
+  notify: restart supervisor
+
+- name: install poll twitter cron job
+  cron:
+    name: "poll twitter"
+    minute: "*/5"
+    user: "{{ mezzanine_user }}"
+    job: "{{ mezzanine_manage }} poll_twitter"

@@ -1,0 +1,8 @@
+mezzanine_proj_app: mezzanine_example
+mezzanine_proj_name: "{{ mezzanine_proj_app }}"
+mezzanine_proj_path: "{{ ansible_env.HOME }}/mezzanine/{{ mezzanine_proj_name }}"
+locale: en_US.UTF-8
+live_hostname: 192.168.33.10.nip.io
+domains:
+  - 192.168.33.10.nip.io
+  - www.192.168.33.10.nip.io

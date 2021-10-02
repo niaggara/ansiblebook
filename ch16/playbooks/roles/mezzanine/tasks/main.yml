@@ -1,0 +1,17 @@
+---
+
+- name: install apt packages
+  become: true
+  apt:
+    update_cache: true
+    cache_valid_time: 3600
+    pkg:
+      - git
+      - libjpeg-dev
+      - memcached
+      - python3-dev
+      - python3-pip
+      - python3-venv
+      - supervisor
+
+- include: django.yml
