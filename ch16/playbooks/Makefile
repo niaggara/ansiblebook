@@ -5,8 +5,7 @@ help:
 	@echo "'make clean' to destroy virtual machine(s)"
 	@echo "'make check' to validate content"
 	@echo "'make update' vagrant box update"
-	@echo "'make single-host' to run playbook against web"
-	@echo "'make across-hosts' to run playbook against db and web"
+	@echo "'make deploy' to run playbook against db and web"
 	@echo "'make test' validate result"
 
 
@@ -17,8 +16,8 @@ secrets.yml:
 .PHONY: check
 check: secrets.yml
 	ansible-inventory --graph -i inventory
-	ansible-playbook --syntax-check mezzanine-single-host.yml mezzanine-across-hosts.yml
-	ansible-lint mezzanine-single-host.yml mezzanine-across-hosts.yml
+	ansible-playbook --syntax-check playbook.yml
+	ansible-lint playbook.yml
 	git ls-files *.yml | xargs yamllint
 	vagrant validate
 
@@ -34,19 +33,18 @@ db:
 web:
 	vagrant up web --no-provision
 
-.PHONY: across-hosts
-across-hosts: db web check
-	ansible-playbook -v mezzanine-across-hosts.yml
-
-.PHONY: single-host
-single-host: web check
-	ansible-playbook -v mezzanine-single-host.yml
+.PHONY: deploy
+deploy: db web check
+	ssh-keygen -R 192.168.33.10
+	ssh-keygen -R 192.168.33.11
+	ssh-keyscan 192.168.33.10 >> ~/.ssh/known_hosts
+	ssh-keyscan 192.168.33.11 >> ~/.ssh/known_hosts
+	vagrant provision
 
 .PHONY: clean
 clean:
 	vagrant destroy -f
 	@rm -rf .vagrant/
-	ssh-keygen -R [127.0.0.1]:2222
 
 .PHONY: test
 test:
