@@ -46,14 +46,6 @@
     - crypto
     - goss
 
-- name: change ssh key to ed25519
-  authorized_key:
-    user: vagrant
-    key: "{{ lookup('file', '~/.ssh/id_ed25519.pub') }}"
-    exclusive: true
-  tags:
-    - ssh
-
 - name: set permissions
   become: true
   file:

@@ -3,7 +3,7 @@
 - name: deploy ssh
   hosts: all
   strategy: free
-  debugger: on_unreachable
+  debugger: on_failed
   roles:
     - role: ssh
       crypto_settings: 'faster.yml'
@@ -26,7 +26,7 @@
 
 - name: deploy mezzanine on web
   hosts: web
-  debugger: always
+  debugger: on_unreachable
   vars_files:
     - secrets.yml
 
