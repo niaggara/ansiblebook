@@ -1,13 +1,14 @@
+#!/usr/bin/env ansible-playbook
 ---
 - name: do not require tty for ssh-ing user
   hosts: vagrant
-  sudo: True
+  become: true
   tasks:
     - name: Set a sudoers file to disable tty
-      template: >
+      template:
         src: disable-requiretty.j2
         dest: /etc/sudoers.d/disable-requiretty
         owner: root
         group: root
         mode: 0440
-        validate="visudo -cf %s"
+        validate: 'bash -c "cat /etc/sudoers /etc/sudoers.d/* %s | visudo -cf-"'
