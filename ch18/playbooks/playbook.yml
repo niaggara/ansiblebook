@@ -1,7 +1,34 @@
+#!/usr/bin/env ansible-playbook
 ---
-- name: trivial playbook to test vagrant
-  hosts: all
-  gather_facts: False
+
+- name: play to prepare vagrant VM
+  hosts: all:!localhost
+  gather_facts: false
+
+  vars:
+    bootstrap_ansible_user: root
+  roles:
+    - role: bootstrap
+
+- name: play to test vagrant VM
+  hosts: all:!localhost
+  gather_facts: true
+  become: true
   tasks:
-    - name: ping
-      ping:
+    - name: forwardAgent
+      copy:
+        dest: /home/vagrant/.ssh/config
+        content: 'ForwardAgent yes'
+        owner: vagrant
+        group: vagrant
+        mode: 0600
+
+    - name: print out operating system details
+      debug:
+        msg: >-
+          os_family:
+          {{ ansible_os_family }},
+          distro:
+          {{ ansible_distribution }}
+          {{ ansible_distribution_version }}
+
