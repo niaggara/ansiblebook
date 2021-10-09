@@ -1,7 +1,9 @@
 ---
 
-- name: restart nginx
+- name: Restart nginx
   become: true
+  become_user: root
   service:
     name: nginx
     state: restarted
+...

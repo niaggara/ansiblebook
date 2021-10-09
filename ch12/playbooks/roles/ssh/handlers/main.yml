@@ -1,6 +1,6 @@
 ---
 
-- name: restart sshd
+- name: Restart sshd
   debug:
     msg: "checking /etc/ssh/sshd_config first"
   changed_when: true
@@ -8,21 +8,22 @@
     - check sshd configuration
     - restart sshd - after config check
 
-- name: check sshd configuration
+- name: Check sshd configuration
   become: true
   command: '/usr/sbin/sshd -t'
   register: sshd_config
   changed_when: "sshd_config.rc != 0"
 
-- name: restart sshd - after config check
+- name: Restart sshd - after config check
   become: true
   service:
     name: sshd
     state: restarted
 
-- name: goss
+- name: Goss
   debug:
     msg: "goss template changed"
-  listen: goss
+  listen: Goss
   tags:
     - ssh
+...

@@ -1,6 +1,6 @@
 ---
 
-- name: copy setup_bundle from ~/Downloads
+- name: Copy setup_bundle from ~/Downloads
   copy:
     src: "~/Downloads/{{ setup_bundle }}"
     dest: '~'
@@ -8,7 +8,7 @@
   tags:
     - tower
 
-- name: unarchive setup_bundle
+- name: Unarchive setup_bundle
   unarchive:
     remote_src: true
     src: "~/{{ setup_bundle }}"
@@ -17,7 +17,7 @@
   tags:
     - tower
 
-- name: create /var/log/tower directory
+- name: Create /var/log/tower directory
   file:
     path: /var/log/tower
     mode: 0755
@@ -25,7 +25,7 @@
   tags:
     - tower
 
-- name: place inventory file for setup.sh
+- name: Place inventory file for setup.sh
   template:
     src: inventory.j2
     dest: "/tmp/{{ tower_name }}/inventory"
@@ -34,7 +34,7 @@
     - tower
     - setup
 
-- name: check if postgres is running
+- name: Check if postgres is running
   delegate_to: "{{ pg_host }}"
   service_facts:
   no_log: true
@@ -42,46 +42,47 @@
     - tower
     - test
 
-- name: display postgres state
+- name: Display postgres state
   debug:
     var: ansible_facts.services['rh-postgresql10-postgresql.service']
   tags:
     - tower
     - test
 
-- name: declare variable for tower_state
+- name: Declare variable for tower_state
   set_fact:
     tower_state: 'unknown'
   tags:
     - tower
     - test
 
-- name: check which services are running
+- name: Check which services are running
   no_log: true
   service_facts:
   tags:
     - tower
     - test
 
-- set_fact:
+- name: Set tower_state fact
+  set_fact:
     tower_state: "{{ ansible_facts.services['ansible-tower.service']['state'] }}"
   when: ansible_facts.services['ansible-tower.service'] is defined
   tags:
     - tower
     - test
 
-- name: running Tower setup.sh, time for a 10 minute break?
+- name: Running Tower setup.sh, time for a 15 minute break?
   async: 3600
   poll: 60
   command: bash -lc "cd /tmp/{{ tower_name }} && bash ./setup.sh"
-  when: 
+  when:
     - role == 'primary'
     - tower_state == 'unknown'
   tags:
     - tower
     - setup
 
-- name: verify ports
+- name: Verify ports
   wait_for:
     port: "{{ item }}"
   with_items:
@@ -92,21 +93,21 @@
     - tower
     - test
 
-- name: check again which services are running
+- name: Check again which services are running
   service_facts:
   no_log: true
   tags:
     - tower
     - test
 
-- name: display supervisord state
+- name: Display supervisord state
   debug:
     var: ansible_facts.services['supervisord.service']
   tags:
     - tower
     - test
 
-- name: verify url
+- name: Verify url
   uri:
     url: "https://{{ primary_machine }}/#/login"
     validate_certs: "{{ tower_validate_certs }}"
@@ -114,3 +115,4 @@
   tags:
     - tower
     - test
+...

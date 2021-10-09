@@ -21,10 +21,12 @@
   - block:
       - name: Upgrade the application
         script: upgrade-app.sh
+
       - name: Run smoke tests
         script: smoke-tests.sh
 
     rescue:
+
       - name: Revert the VM to a snapshot after a failed upgrade
         delegate_to: localhost
         cs_vmsnapshot:
@@ -45,3 +47,4 @@
       name: Snapshot before upgrade
       vm: "{{ inventory_hostname_short }}"
       state: absent
+...

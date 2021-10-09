@@ -8,20 +8,20 @@
 
   tasks:
 
-    - name: create organization
+    - name: Create organization
       tower_organization:
         name: "Tower"
         description: "Tower organization"
         state: present
 
-    - name: create inventory
+    - name: Create inventory
       tower_inventory:
         name: "Tower Inventory"
         description: "Tower infra"
         organization: "Tower"
         state: present
 
-    - name: populate inventory
+    - name: Populate inventory
       tower_host:
         name: "{{ item }}"
         inventory: "Tower Inventory"
@@ -31,7 +31,7 @@
         - 'server02'
         - 'server03'
 
-    - name: create groups
+    - name: Create groups
       tower_group:
         name: "{{ item.group }}"
         inventory: "Tower Inventory"
@@ -46,14 +46,14 @@
         - group: database
           host: 'server01'
 
-    - name: create project
+    - name: Create project
       tower_project:
         name: "test-playbooks"
         organization: "Tower"
         scm_type: git
         scm_url: https://github.com/ansible/test-playbooks.git
 
-    - name: create machine credential
+    - name: Create machine credential
       tower_credential:
         name: 'Tower Credential'
         credential_type: Machine
@@ -61,7 +61,7 @@
         inputs:
           ssh_key_data: "{{ lookup('file', 'files/tower_ed25519') }}"
 
-    - name: create team
+    - name: Create team
       tower_team:
         name: "Tower Team"
         description: "Tower team"
@@ -69,7 +69,7 @@
         state: present
         validate_certs: false
 
-    - name: create job template
+    - name: Create job template
       tower_job_template:
         name: "Test Job Template"
         project: "test-playbooks"
@@ -80,3 +80,4 @@
     - name: Launch the Job Template
       tower_job_launch:
         job_template: "Test Job Template"
+...

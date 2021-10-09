@@ -1,17 +1,17 @@
 ---
 
-- name: setup
+- name: Setup
   setup:
   tags:
     - ssh
 
-- name: include OS specific variables
+- name: Include OS specific variables
   include_vars: "{{ ansible_distribution }}.yml"
   tags:
     - ssh
     - goss
 
-- name: print out operating system details
+- name: Print out operating system details
   debug:
     msg: >-
       os_family:
@@ -25,28 +25,28 @@
   tags:
     - ssh
 
-- name: load crypto vars
+- name: Load crypto vars
   include_vars: "{{ crypto_settings }}"
   tags:
     - ssh
     - crypto
     - goss
 
-- name: copy Goss template to remote
+- name: Copy Goss template to remote
   become: true
   template:
     src: test_sshd.yaml
-    dest: "{{ goss_test_directory|default('/etc/goss.d', true) }}/"
-    owner: "{{ goss_user|default('root', true) }}"
-    group: "{{ goss_group|default('users', true) }}"
+    dest: "{{ goss_test_directory | default('/etc/goss.d', true) }}/"
+    owner: "{{ goss_user | default('root', true) }}"
+    group: "{{ goss_group | default('users', true) }}"
     mode: 0644
-  notify: goss
+  notify: Goss
   tags:
     - ssh
     - crypto
     - goss
 
-- name: change ssh key to ed25519
+- name: Change ssh key to ed25519
   authorized_key:
     user: vagrant
     key: "{{ lookup('file', '~/.ssh/id_ed25519.pub') }}"
@@ -54,7 +54,7 @@
   tags:
     - ssh
 
-- name: set permissions
+- name: Set permissions
   become: true
   file:
     owner: root
@@ -65,55 +65,55 @@
   tags:
     - ssh
 
-- name: improve SSHd Ciphers
+- name: Improve SSHd Ciphers
   become: true
   lineinfile:
     dest: "{{ sshd_policy_file }}"
     regexp: '^Ciphers'
     line: "Ciphers {{ Ciphers }}"
     state: present
-  notify: restart sshd
+  notify: Restart sshd
   tags:
     - ssh
     - crypto
 
-- name: improve SSHd KexAlgorithms
+- name: Omprove SSHd KexAlgorithms
   become: true
   lineinfile:
     dest: "{{ sshd_policy_file }}"
     regexp: '^KexAlgorithms'
     line: "KexAlgorithms {{ KexAlgorithms }}"
     state: present
-  notify: restart sshd
+  notify: Restart sshd
   tags:
     - ssh
     - crypto
 
-- name: improve SSHd MACs
+- name: Improve SSHd MACs
   become: true
   lineinfile:
     dest: "{{ sshd_policy_file }}"
     regexp: '^MACs'
     line: "MACs {{ MACs }}"
     state: present
-  notify: restart sshd
+  notify: Restart sshd
   tags:
     - ssh
     - crypto
 
-- name: improve SSHd HostKeyAlgorithms
+- name: Improve SSHd HostKeyAlgorithms
   become: true
   lineinfile:
     dest: "{{ sshd_policy_file }}"
     regexp: '^HostKeyAlgorithms'
     line: "HostKeyAlgorithms {{ HostKeyAlgorithms }}"
     state: present
-  notify: restart sshd
+  notify: Restart sshd
   tags:
     - ssh
     - crypto
 
-- name: check the ed25519 host key
+- name: Check the ed25519 host key
   become: true
   stat:
     path: /etc/ssh/ssh_host_ed25519_key
@@ -122,18 +122,18 @@
     - ssh
     - crypto
 
-- name: generate ed25519 host key
+- name: Generate ed25519 host key
   become: true
   command: ssh-keygen -t ed25519 -f /etc/ssh/ssh_host_ed25519_key -N ""
   when:
     - not ed25519.stat.exists|bool
-  notify: restart sshd
+  notify: Restart sshd
   changed_when: true
   tags:
     - ssh
     - crypto
 
-- name: set permissions
+- name: Sethost key spermissions
   become: true
   file:
     path: /etc/ssh/ssh_host_ed25519_key
@@ -142,7 +142,7 @@
     - ssh
     - crypto
 
-- name: configure ed25519 host key
+- name: Configure ed25519 host key
   become: true
   lineinfile:
     dest: /etc/ssh/sshd_config
@@ -151,12 +151,12 @@
     insertbefore: '^# HostKey /etc/ssh/ssh_host_rsa_key'
     mode: 0600
     state: present
-  notify: restart sshd
+  notify: Restart sshd
   tags:
     - ssh
     - crypto
 
-- name: disable weak host keys
+- name: Disable weak host keys
   when: weak_host_keys|length >= 1
   include_tasks: weak_keys.yml
   loop: "{{ weak_host_keys }}"
@@ -164,7 +164,7 @@
     - ssh
     - crypto
 
-- name: check if /etc/ssh/moduli contains weak Diffie-Hellman moduli
+- name: Check if /etc/ssh/moduli contains weak Diffie-Hellman moduli
   become: true
   shell: awk '$5 < 2048' /etc/ssh/moduli
   register: sshd_register_moduli
@@ -175,11 +175,11 @@
     - ssh
     - crypto
 
-- name: deactivate short Diffie-Hellman moduli
+- name: Dactivate short Diffie-Hellman moduli
   become: true
   when: sshd_register_moduli.stdout
   shell: "awk '$5 >= 3071' /etc/ssh/moduli > /etc/ssh/moduli.safe && mv -f /etc/ssh/moduli.safe /etc/ssh/moduli"
   tags:
-    - skip_ansible_lint
     - tags
     - crypto
+...

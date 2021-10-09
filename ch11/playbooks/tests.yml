@@ -1,35 +1,38 @@
 #!/usr/bin/env ansible-playbook
 ---
-- name: just a test of the cache
+- name: Just a test of the cache
   hosts: vagrant
   strategy: free
   tasks:
 
-    - name: just a ping -c 10
+    - name: Just a ping -c 10
       action: ping
       loop: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
-    - name: copy a 100 line file
+    - name: Copy a 100 line file
       copy:
         force: true
         src: lorum_ipsum.txt
         dest: lorum_ipsum.txt
+        mode: 0644
       loop: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
-    - name: change the file
+    - name: Change the file
       file:
         path: lorum_ipsum.txt
-        mode: '0640'
+        mode: 0640
       loop: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
-    - name: touch the file
+    - name: Touch the file
       file:
         path: lorum_ipsum.txt
         state: touch
+        mode: 0640
       loop: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
-    - name: remove the file
+    - name: Remove the file
       file:
         path: lorum_ipsum.txt
         state: absent
       loop: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+...

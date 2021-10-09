@@ -1,6 +1,6 @@
 #!/usr/bin/env ansible-playbook
 ---
-- name: deploy ssh
+- name: Deploy ssh
   hosts: all
   strategy: free
   debugger: on_failed
@@ -9,10 +9,10 @@
       crypto_settings: 'faster.yml'
       tags: ssh
   tasks:
-    - name: display hostvars
+    - name: Display hostvars
       debug: var=hostvars[inventory_hostname]
 
-- name: deploy postgres on db
+- name: Deploy postgres on db
   hosts: db
   debugger: on_failed
   vars_files:
@@ -36,3 +36,4 @@
       database_host: "{{ hostvars.db.ansible_enp0s8.ipv4.address }}"
     - role: nginx
       tags: nginx
+...

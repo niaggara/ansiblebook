@@ -1,18 +1,18 @@
 #!/usr/bin/env ansible-playbook --ask-vault-pass
 ---
 
-- name: chapter 8 examples
+- name: Chapter 8 examples
   hosts: localhost
   connection: local
 
   tasks:
-    - name: test of filter plugin
+    - name: Test of filter plugin
       template:
         src: example-8-10.j2
         dest: ./example.txt
         mode: 0644
 
-- name: chapter 8 examples
+- name: Chapter 8 examples
   hosts: web
 
   tasks:
@@ -23,7 +23,7 @@
         key_options: 'from="10.0.2.2"'
         exclusive: true
 
-    - name: copy authorized_keys template
+    - name: Copy authorized_keys template
       template:
         src: authorized_keys.j2
         dest: /home/vagrant/.ssh/authorized_keys
@@ -38,40 +38,40 @@
       vars:
         pubkey_cmd: 'ssh-keygen -y -f ~/.vagrant.d/insecure_private_key'
 
-    - name: get the current shell
+    - name: Get the current shell
       debug: msg="{{ lookup('env', 'SHELL') }}"
 
-    - name: create deploy user, save random password in pw.txt
+    - name: Create deploy user, save random password in pw.txt
       become: true
       user:
         name: deploy
         password: "{{ lookup('password', 'pw.txt encrypt=sha512_crypt') }}"
 
-    - name: output message from template
+    - name: Output message from template
       debug:
         msg: "{{ lookup('template', 'message.j2') }}"
 
-- name: more examples from chapter 8
+- name: More examples from chapter 8
   hosts: localhost
   connection: local
 
   tasks:
-    - name: "show Sue's email"
+    - name: "Show Sue's email"
       debug:
         msg: "{{ lookup('csvfile', 'sue file=users.csv delimiter=, col=1') }}"
 
-    - name: took up TXT record
+    - name: Look up TXT record
       debug:
         msg: "{{ lookup('dnstxt', 'ansiblebook.com') }}"
 
-    - name: look up values in Redis
+    - name: Look up values in Redis
       environment:
         ANSIBLE_REDIS_HOST: localhost
         ANSIBLE_REDIS_PORT: 6379
       debug:
         msg: "{{ lookup('redis', 'weather','temp' ) }}"
 
-    - name: iterate with loop
+    - name: Iterate with loop
       debug:
         msg: "KPI: {{ item.kpi }} prio: {{ i + 1 }} goto: {{ item.dept }}"
       loop:
@@ -91,8 +91,7 @@
       with_lines:
         - cat files/turing.txt
 
-
-- name: chapter 8 examples
+- name: Chapter 8 examples
   hosts: web
   vars:
     list_of_packages:
@@ -101,14 +100,13 @@
 
   tasks:
 
-    - name: install packages
+    - name: Install packages
       become: true
       package:
         name: "{{ list_of_packages }}"
         state: present
 
-
-    - name: add public keys to account
+    - name: Add public keys to account
       become: true
       authorized_key:
         user: deploy
@@ -117,12 +115,12 @@
         - /var/keys/*.pub
         - keys/*.pub
 
-    - name: iterate over ansible_enp0s8
+    - name: Iterate over ansible_enp0s8
       debug:
         msg: "{{ item.key }}={{ item.value }}"
       with_dict: "{{ ansible_enp0s8.ipv4 }}"
 
-    - name: Add my public key for SSH
+    - name: Add authorized_key for SSH
       authorized_key:
         user: vagrant
         key: "{{ item }}"
@@ -141,14 +139,14 @@
       loop_control:
         loop_var: user
 
-    - name: mkdir
+    - name: Mkdir
       become: true
       file:
         path: /etc/nginx/conf.d/
         state: directory
         mode: '0750'
 
-    - name: create nginx vhost configs
+    - name: Create nginx vhost configs
       become: true
       template:
         src: "{{ item.domain }}.conf.j2"
@@ -162,13 +160,17 @@
 
     - block:
         - debug: msg="You will see a failed tasks right after this"
-        - name: returns 1
+
+        - name: Returns 1
           command: /usr/bin/false
+          changed_when: false
+
         - debug: msg="You never see this message"
       rescue:
         - debug: msg="You see this message in case of failure in the block"
       always:
         - debug: msg="This will be always executed"
 
-    - name: test of ansible vault
+    - name: Test of ansible vault
       debug: var=secret_key
+...

@@ -1,7 +1,7 @@
 ---
 
 - block:
-    - name: get goss binary on localhost
+    - name: Get goss binary on localhost
       become: false
       delegate_to: localhost
       get_url:
@@ -17,7 +17,7 @@
       tags:
         - goss
 
-    - name: ensure we have local copy of goss
+    - name: Ensure we have local copy of goss
       become: false
       delegate_to: localhost
       stat:
@@ -26,7 +26,7 @@
       tags:
         - goss
 
-    - name: copy goss to remote
+    - name: Copy goss to remote
       become: true
       copy:
         src: "/tmp/goss"
@@ -37,7 +37,7 @@
       when: goss_bin.stat.exists
   when: goss_download == 'localhost'
 
-- name: get goss binary directly
+- name: Get goss binary directly
   become: true
   get_url:
     url: "https://github.com/aelsabbahy/goss/releases/download/{{ goss_version }}/goss-linux-amd64"
@@ -55,7 +55,7 @@
   tags:
     - goss
 
-- name: "ensure {{ goss_test_directory }} exists"
+- name: "Ensure {{ goss_test_directory }} exists"
   become: true
   file:
     path: "{{ goss_test_directory }}"
@@ -66,7 +66,7 @@
   tags:
     - goss
 
-- name: copy render-goss to remote
+- name: Copy render-goss to remote
   become: true
   template:
     src: render-goss
@@ -77,7 +77,7 @@
   tags:
     - goss
 
-- name: copy Goss template to remote
+- name: Copy Goss template to remote
   become: true
   template:
     src: test_goss.yaml
@@ -88,3 +88,4 @@
   notify: goss
   tags:
     - goss
+...

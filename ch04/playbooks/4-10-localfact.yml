@@ -1,10 +1,11 @@
 ---
-- name: print local facts
+- name: Print local facts
   hosts: fedora
   tasks:
-    - name: print ansible_local
+    - name: Print ansible_local
       debug: var=ansible_local
 
-    - name: print book title
+    - name: Print book title
       debug:
         msg: "The title of the book is {{ ansible_local.example.book.title }}"
+...

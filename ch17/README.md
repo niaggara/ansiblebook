@@ -5,7 +5,13 @@ This project creates 3 Centos7 VMs with Vagrant/Virtualbox. The ansible provisio
 ## Usage:
 - If you have a Mac with Homebrew, then you can install what's in the Brewfile with `brew bundle`
 - Open the web page [https://www.ansible.com/zero-to-100](https://www.ansible.com/zero-to-100)
-- Set `tower_name: ansible-automation-platform-setup-bundle-1.2.1-1`
+- Click 'Start the trial' of Red Hat Ansible Automation Platform
+- Download the tar gzipped file in your ~/Downloads directory.
+- Request a trial license at http://ansible.com/license
+- In roles/tower/defaults/main.yml check the version of
+```yaml
+tower_name: ansible-automation-platform-setup-2.0.1-1-early-access.tar.gz`
+```
 - Create a virtualenv with: `source init.rc`
 - Update the passwords and encrypt `group_vars/vagrant/vars.yml`
 - Provision Ansible Tower: `vagrant up`

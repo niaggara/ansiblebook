@@ -1,12 +1,13 @@
 ---
-- name: show return value of a command
+- name: Show return value of a command
   hosts: fedora
   gather_facts: false
   tasks:
 
-    - name: run myprog
+    - name: Run myprog
       command: /opt/myprog
       register: result
       ignore_errors: true
 
     - debug: var=result
+...

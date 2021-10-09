@@ -13,3 +13,4 @@ dependencies:
   - name: jq
     package: jq
     binary: /usr/bin/jq
+...

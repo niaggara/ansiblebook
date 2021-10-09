@@ -1,7 +1,8 @@
 ---
 
-- name: restart supervisor
+- name: Restart supervisor
   become: true
   supervisorctl:
     name: gunicorn_mezzanine
     state: restarted
+...

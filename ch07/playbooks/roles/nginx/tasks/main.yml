@@ -1,13 +1,13 @@
 ---
 
-- name: install nginx webserver
+- name: Install nginx webserver
   become: true
   apt:
     update_cache: true
     cache_valid_time: 3600
     pkg: nginx
 
-- name: ensure config path exists
+- name: Ensure config path exists
   become: true
   file:
     path: "{{ nginx_conf_path }}"
@@ -15,7 +15,7 @@
     mode: 0755
   when: tls_enabled
 
-- name: create ssl certificates
+- name: Create ssl certificates
   become: true
   command: >
     openssl req -new -x509 -nodes -out {{ mezzanine_proj_name }}.crt
@@ -23,27 +23,28 @@
     chdir={{ nginx_conf_path }}
     creates={{ nginx_conf_path }}/{{ mezzanine_proj_name }}.crt
   when: tls_enabled
-  notify: restart nginx
+  notify: Restart nginx
 
-- name: set the nginx config file
+- name: Set the nginx config file
   become: true
   template:
     src: nginx.conf.j2
     dest: /etc/nginx/sites-available/mezzanine.conf
     mode: 0755
-  notify: restart nginx
+  notify: Restart nginx
 
-- name: enable the nginx config file
+- name: Enable the nginx config file
   become: true
   file:
     src: /etc/nginx/sites-available/mezzanine.conf
     dest: /etc/nginx/sites-enabled/mezzanine.conf
     state: link
-  notify: restart nginx
+  notify: Restart nginx
 
-- name: remove the default nginx config file
+- name: Remove the default nginx config file
   become: true
   file:
     path: /etc/nginx/sites-enabled/default
     state: absent
-  notify: restart nginx
+  notify: Restart nginx
+...

@@ -3,14 +3,17 @@
   serial: 1
   tasks:
     - name: Take VM out of the load balancer
+
     - name: Create a VM snapshot before the app upgrade
 
     - block:
         - name: Upgrade the application
+
         - name: Run smoke tests
 
       rescue:
         - name: Revert a VM to the snapshot after a failed upgrade
 
     - name: Re-add webserver to the loadbalancer
+
     - name: Remove a VM snapshot

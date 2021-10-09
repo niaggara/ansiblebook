@@ -2,10 +2,11 @@
 - hosts: all
 
   tasks:
-    - name: setup
+    - name: Setup
       setup:
       register: setup
 
-    - name: display
+    - name: Display
       debug:
         var: setup
+...

@@ -12,3 +12,4 @@ goss_user: root
 goss_group: users
 goss_format: tap
 goss_download: localhost
+...

@@ -13,3 +13,4 @@
           {{ ansible_distribution_version }},
           kernel:
           {{ ansible_kernel }}
+...

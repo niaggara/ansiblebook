@@ -1,3 +1,4 @@
 ---
 sshd_policy_file: /etc/ssh/sshd_config.d/10-crypto.conf
 sshd_policy_mode: 0600
+...

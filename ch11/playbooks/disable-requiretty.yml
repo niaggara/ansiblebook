@@ -1,6 +1,6 @@
 #!/usr/bin/env ansible-playbook
 ---
-- name: do not require tty for ssh-ing user
+- name: Do not require tty for ssh-ing user
   hosts: vagrant
   become: true
   tasks:
@@ -12,3 +12,4 @@
         group: root
         mode: 0440
         validate: 'bash -c "cat /etc/sudoers /etc/sudoers.d/* %s | visudo -cf-"'
+...

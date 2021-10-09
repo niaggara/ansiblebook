@@ -1,6 +1,6 @@
 #!/usr/bin/env ansible-playbook
 ---
-- name: provision servers
+- name: Provision servers
   hosts: all
   vars:
     crypto_settings: faster.yml
@@ -11,38 +11,39 @@
 
   post_tasks:
 
-    - name: ping hosts
+    - name: Ping hosts
       ping:
 
-    - name: create locale
+    - name: Create Debian locale
       become: true
       command: localedef -i en_US -f UTF-8 en_US.UTF-8
       when: ansible_distribution == 'Debian'
 
-    - name: create locale
+    - name: Create fedora locale
       become: true
       command: localectl set-locale LANG=en_US.UTF-8
       when: ansible_distribution == 'Fedora'
 
-    - name: install Goss
+    - name: Install Goss
       include_role:
         name: goss
         tasks_from: install
       tags:
         - goss
 
-    - name: improve ssh configuration
+    - name: Improve ssh configuration
       include_role:
         name: ssh
       tags:
         - ssh
 
-    - name: flush handlers
+    - name: Flush handlers
       meta: flush_handlers
 
-    - name: run Goss tests
+    - name: Run Goss tests
       include_role:
         name: goss
         tasks_from: tests
       tags:
         - goss
+...

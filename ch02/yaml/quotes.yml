@@ -7,10 +7,11 @@
 
   tasks:
 
-    - name: show escaped quotes
+    - name: Show escaped quotes
       debug:
         msg: '"The module will print escaped quotes: neat, eh?"'
 
-    - name: show quoted quotes
+    - name: Show quoted quotes
       debug:
         msg: "'The module will print quoted quotes: neat, eh?'"
+...

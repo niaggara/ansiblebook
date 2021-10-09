@@ -34,7 +34,7 @@
     - secrets.yml
 
   tasks:
-    - name: install apt packages
+    - name: Install apt packages
       become: true
       apt:
         update_cache: true
@@ -53,13 +53,13 @@
           - python3-psycopg2
           - supervisor
 
-    - name: create project path
+    - name: Create project path
       file:
         path: "{{ proj_path }}"
         state: directory
         mode: 0755
 
-    - name: create a logs directory
+    - name: Create a logs directory
       file:
         path: "{{ ansible_env.HOME }}/logs"
         state: directory
@@ -67,7 +67,7 @@
 
     ### run this when you run into permission problems:
     # $  ssh-keygen -R 192.168.33.10
-    - name: check out the repository on the host
+    - name: Check out the repository on the host
       git:
         repo: "{{ repo_url }}"
         dest: "{{ proj_path }}"
@@ -75,7 +75,7 @@
         accept_hostkey: true
         update: false
 
-    - name: create python3 virtualenv
+    - name: Create python3 virtualenv
       pip:
         name:
           - pip
@@ -85,30 +85,30 @@
         virtualenv: "{{ venv_path }}"
         virtualenv_command: /usr/bin/python3 -m venv
 
-    - name: copy requirements.txt to home directory
+    - name: Copy requirements.txt to home directory
       copy:
         src: requirements.txt
         dest: "{{ reqs_path }}"
         mode: 0644
 
-    - name: install packages listed in requirements.txt
+    - name: Install packages listed in requirements.txt
       pip:
         virtualenv: "{{ venv_path }}"
         requirements: "{{ reqs_path }}"
 
-    - name: create project locale
+    - name: Create project locale
       become: true
       locale_gen:
         name: "{{ locale }}"
 
-    - name: create a DB user
+    - name: Create a DB user
       become: true
       become_user: postgres
       postgresql_user:
         name: "{{ database_user }}"
         password: "{{ db_pass }}"
 
-    - name: create the database
+    - name: Create the database
       become: true
       become_user: postgres
       postgresql_db:
@@ -119,14 +119,14 @@
         lc_collate: "{{ locale }}"
         template: template0
 
-    - name: ensure config path exists
+    - name: Ensure config path exists
       become: true
       file:
         path: "{{ conf_path }}"
         state: directory
         mode: 0755
 
-    - name: create tls certificates
+    - name: Create tls certificates
       become: true
       command: >
         openssl req -new -x509 -nodes -out {{ proj_name }}.crt
@@ -134,60 +134,60 @@
         chdir={{ conf_path }}
         creates={{ conf_path }}/{{ proj_name }}.crt
       when: tls_enabled
-      notify: restart nginx
+      notify: Restart nginx
 
-    - name: remove the default nginx config file
+    - name: Remove the default nginx config file
       become: true
       file:
         path: /etc/nginx/sites-enabled/default
         state: absent
-      notify: restart nginx
+      notify: Restart nginx
 
-    - name: set the nginx config file
+    - name: Set the nginx config file
       become: true
       template:
         src: templates/nginx.conf.j2
         dest: /etc/nginx/sites-available/mezzanine.conf
         mode: 0640
-      notify: restart nginx
+      notify: Restart nginx
 
-    - name: enable the nginx config file
+    - name: Enable the nginx config file
       become: true
       file:
         src: /etc/nginx/sites-available/mezzanine.conf
         dest: /etc/nginx/sites-enabled/mezzanine.conf
         state: link
         mode: 0777
-      notify: restart nginx
+      notify: Restart nginx
 
-    - name: set the supervisor config file
+    - name: Set the supervisor config file
       become: true
       template:
         src: templates/supervisor.conf.j2
         dest: /etc/supervisor/conf.d/mezzanine.conf
         mode: 0640
-      notify: restart supervisor
+      notify: Restart supervisor
 
-    - name: install poll twitter cron job
+    - name: Install poll twitter cron job
       cron:
         name: "poll twitter"
         minute: "*/5"
         user: "{{ user }}"
         job: "{{ manage }} poll_twitter"
 
-    - name: set the gunicorn config file
+    - name: Set the gunicorn config file
       template:
         src: templates/gunicorn.conf.py.j2
         dest: "{{ proj_path }}/gunicorn.conf.py"
         mode: 0750
 
-    - name: generate the settings file
+    - name: Generate the settings file
       template:
         src: templates/local_settings.py.j2
         dest: "{{ settings_path }}/local_settings.py"
         mode: 0750
 
-    - name: initialize the database
+    - name: Initialize the database
       django_manage:
         command: createdb --noinput --nodata
         app_path: "{{ proj_path }}"
@@ -195,7 +195,7 @@
       tags:
         - createdb
 
-    - name: apply migrations to create the database, collect static content
+    - name: Apply migrations to create the database, collect static content
       django_manage:
         command: "{{ item }}"
         app_path: "{{ proj_path }}"
@@ -204,7 +204,7 @@
         - migrate
         - collectstatic
 
-    - name: set the site id
+    - name: Set the site id
       script: scripts/setsite.py
       environment:
         PATH: "{{ venv_path }}/bin"
@@ -213,7 +213,7 @@
         DJANGO_SETTINGS_MODULE: "{{ proj_app }}.settings"
         WEBSITE_DOMAIN: "{{ live_hostname }}"
 
-    - name: set the admin password
+    - name: Set the admin password
       script: scripts/setadmin.py
       environment:
         PATH: "{{ venv_path }}/bin"
@@ -223,14 +223,15 @@
 
   handlers:
 
-    - name: restart supervisor
+    - name: Restart supervisor
       become: true
       supervisorctl:
         name: "{{ gunicorn_procname }}"
         state: restarted
 
-    - name: restart nginx
+    - name: Restart nginx
       become: true
       service:
         name: nginx
         state: restarted
+...

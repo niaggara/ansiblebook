@@ -1,7 +1,8 @@
 ---
-- name: show any variable during debugging.
+- name: Show any variable during debugging.
   hosts: all
   gather_facts: false
   tasks:
 
     - debug: var="{{ variable }}"
+...

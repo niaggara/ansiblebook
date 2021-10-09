@@ -1,6 +1,6 @@
 #!/usr/bin/env ansible-playbook
 ---
-- name: provision servers
+- name: Provision servers
   hosts: all
   vars:
     crypto_settings: faster.yml
@@ -10,17 +10,17 @@
 
   post_tasks:
 
-    - name: ping hosts
+    - name: Ping hosts
       ping:
 
-    - name: check python3
+    - name: Check python3
       stat:
         path: /usr/bin/python3
       register: python3
       tags:
         - python3
 
-    - name: install python3
+    - name: Install python3
       become: true
       async: 500
       poll: 0
@@ -30,24 +30,25 @@
       tags:
         - python3
 
-    - name: install Goss
+    - name: Install Goss
       include_role:
         name: goss
         tasks_from: install
       tags:
         - goss
 
-    - name: improve ssh configuration
+    - name: Improve ssh configuration
       include_role:
         name: ssh
       tags:
         - ssh
         - goss
 
-    - name: flush handlers
+    - name: Flush handlers
       meta: flush_handlers
 
-    - name: run Goss tests
+    - name: Run Goss tests
       include_role:
         name: goss
         tasks_from: tests
+...

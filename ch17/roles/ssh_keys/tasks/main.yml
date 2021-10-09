@@ -1,6 +1,6 @@
 ---
 
-- name: create /root/.ssh directory
+- name: Create /root/.ssh directory
   file:
     dest: /root/.ssh
     mode: 0700
@@ -10,7 +10,7 @@
   tags:
     - sshkeys
 
-- name: generate ssh-key for root without passphrase!!!
+- name: Generate ssh-key for root without passphrase!!!
   delegate_to: localhost
   become: false
   run_once: true
@@ -20,21 +20,21 @@
   tags:
     - sshkeys
 
-- name: set ssh pub_key fact
+- name: Set ssh pub_key fact
   set_fact:
     pub_key: "files/{{ ssh_key_name }}_{{ ssh_key_type }}.pub"
   tags:
     - sshkeys
 
-- name: install authorized_keys for root
+- name: Install authorized_keys for root
   authorized_key:
     user: root
     state: present
-    key: "{{ lookup('file',pub_key)  }}"
+    key: "{{ lookup('file',pub_key) }}"
   tags:
     - sshkeys
 
-- name: install private key for root
+- name: Install private key for root
   copy:
     src: "files/{{ ssh_key_name }}_{{ ssh_key_type }}"
     dest: /root/.ssh/
@@ -42,7 +42,7 @@
   tags:
     - sshkeys
 
-- name: setup .ssh/config for root
+- name: Setup .ssh/config for root
   template:
     src: config
     dest: /root/.ssh/config
@@ -52,10 +52,9 @@
   tags:
     - sshkeys
 
-- name: generate known host records
+- name: Generate known host records
   shell: ssh-keyscan -H {{ primary_machine }} {{ secondary_machine }} > /root/.ssh/known_hosts
-  #  Not idempotent
-  #  args:
-  #    creates: /root/.ssh/known_hosts
+  changed_when: true
   tags:
     - sshkeys
+...

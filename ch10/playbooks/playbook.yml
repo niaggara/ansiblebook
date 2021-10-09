@@ -5,10 +5,11 @@
   connection: local
   gather_facts: false
   tasks:
-    - name: clone repository
+    - name: Clone repository
       git:
         repo: 'git@github.com:ansiblebook/mezzanine_example.git'
         dest: /tmp/mezzanine_example
         version: master
         accept_hostkey: true
         update: false
+...

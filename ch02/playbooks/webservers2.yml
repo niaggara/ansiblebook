@@ -5,22 +5,24 @@
   become: true
 
   tasks:
-    - name: install nginx
+    - name: Install nginx
       package:
         name: nginx
         update_cache: true
 
-    - name: copy nginx config file
+    - name: Copy nginx config file
       copy:
         src: nginx.conf
         dest: /etc/nginx/sites-available/default
+        mode: 0644
 
-    - name: copy index.html
+    - name: Copy index.html
       template:
         src: index.html.j2
         dest: /usr/share/nginx/html/index.html
+        mode: 0644
 
-    - name: restart nginx
+    - name: Restart nginx
       service:
         name: nginx
         state: restarted

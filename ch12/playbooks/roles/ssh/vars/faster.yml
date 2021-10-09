@@ -10,3 +10,4 @@ MACs: umac-128-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-sha2-512-etm@o
 weak_host_keys:
   - ssh_host_rsa_key
   - ssh_host_ecdsa_key
+...

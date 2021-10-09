@@ -13,26 +13,27 @@
     server_name: localhost
 
   handlers:
-    - name: restart nginx
+
+    - name: Restart nginx
       service:
         name: nginx
         state: restarted
 
   tasks:
-    - name: install nginx
+    - name: Install nginx
       package:
         name: nginx
         update_cache: true
-      notify: restart nginx
+      notify: Restart nginx
 
-    - name: create directories for TLS certificates
+    - name: Create directories for TLS certificates
       file:
         path: "{{ tls_dir }}"
         state: directory
         mode: 0750
-      notify: restart nginx
+      notify: Restart nginx
 
-    - name: copy TLS files
+    - name: Copy TLS files
       copy:
         src: "{{ item }}"
         dest: "{{ tls_dir }}"
@@ -40,25 +41,25 @@
       loop:
         - "{{ key_file }}"
         - "{{ cert_file }}"
-      notify: restart nginx
+      notify: Restart nginx
 
-    - name: install nginx config template
+    - name: Install nginx config template
       template:
         src: nginx.conf.j2
         dest: "{{ conf_file }}"
         mode: 0644
-      notify: restart nginx
+      notify: Restart nginx
 
-    - name: install home page
+    - name: Install home page
       template:
         src: index.html.j2
         dest: /usr/share/nginx/html/index.html
         mode: 0644
 
-    - name: restart nginx
+    - name: Flush handlers
       meta: flush_handlers
 
-    - name: "test it! https://localhost:8443/index.html"
+    - name: "Test it! https://localhost:8443/index.html"
       delegate_to: localhost
       become: false
       uri:

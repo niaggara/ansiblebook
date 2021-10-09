@@ -1,6 +1,6 @@
 ---
 
-- name: install apt packages
+- name: Install apt packages
   become: true
   apt:
     update_cache: true
@@ -14,4 +14,5 @@
       - python3-venv
       - supervisor
 
-- include: django.yml
+- include_tasks: django.yml
+...

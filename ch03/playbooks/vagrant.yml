@@ -6,7 +6,7 @@
   vars:
     box: centos/7
   tasks:
-    - name: create a Vagrantfile
+    - name: Create a Vagrantfile
       command: "vagrant init {{ box }}"
       args:
         creates: Vagrantfile
@@ -29,5 +29,6 @@
   hosts: default
   tasks:
     # The list of tasks would go here
-    - name: ping
+    - name: Ping
       ping:
+...

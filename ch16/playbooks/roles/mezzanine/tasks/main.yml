@@ -1,7 +1,8 @@
 ---
 
-- name: install apt packages
+- name: Install apt packages
   become: true
+  become_user: root
   apt:
     update_cache: true
     cache_valid_time: 3600
@@ -15,3 +16,4 @@
       - supervisor
 
 - include: django.yml
+...

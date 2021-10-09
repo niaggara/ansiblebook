@@ -1,11 +1,12 @@
 ---
-- name: show return value of command module
+- name: Show return value of command module
   hosts: fedora
   gather_facts: false
   tasks:
-    - name: capture output of id command
+    - name: Capture output of id command
       command: id -un
       register: login
 
     - debug: var=login
     - debug: msg="Logged in as user {{ login.stdout }}"
+...

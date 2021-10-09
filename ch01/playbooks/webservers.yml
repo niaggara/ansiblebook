@@ -5,9 +5,10 @@
   tasks:
     - name: Install nginx
       apt: name=nginx
-    - name: install config file
+    - name: Install config file
       template: src=nginx.conf.j2 dest=/etc/nginx/nginx.conf
-      notify: restart nginx
+      notify: Restart nginx
   handlers:
-    - name: restart nginx
+    - name: Restart nginx
       service: name=nginx state=restarted
+...

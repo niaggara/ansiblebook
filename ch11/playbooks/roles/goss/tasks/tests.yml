@@ -1,11 +1,11 @@
 ---
 
-- name: register test files
+- name: Register test files
   shell: "ls {{ goss_test_directory }}/test_*.yaml"
   changed_when: false
   register: test_files
 
-- name: execute Goss tests
+- name: Execute Goss tests
   become: true
   command: "/usr/bin/goss -g {{ item }} validate -f tap"
   args:
@@ -14,13 +14,14 @@
   register: test_results
   with_items: "{{ test_files.stdout_lines }}"
 
-- name: display details about the Goss results
+- name: Display details about the Goss results
   debug:
     msg: "{{ item.stdout_lines }}"
   with_items: "{{ test_results.results }}"
 
-- name: fail when tests fail
+- name: Fail when tests fail
   fail:
     msg: "Goss failed to validate"
   when: item.rc != 0
   with_items: "{{ test_results.results }}"
+...

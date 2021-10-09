@@ -9,3 +9,4 @@ mezzanine_reqs_path: '~/requirements.txt'
 mezzanine_python: "{{ mezzanine_venv_path }}/bin/python"
 mezzanine_manage: "{{ mezzanine_python }} {{ mezzanine_proj_path }}/manage.py"
 mezzanine_gunicorn_procname: gunicorn_mezzanine
+...

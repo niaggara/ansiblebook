@@ -1,13 +1,14 @@
 ---
-- name: show return value of stat module
+- name: Show return value of stat module
   hosts: ubuntu
   gather_facts: true
   become: true
   tasks:
-    - name: determine file properties
+    - name: Determine file properties
       stat:
         path: /etc/ssh/sshd_config
       register: result
 
-    - name: display result.stat
+    - name: Display result.stat
       debug: var=result.stat
+...
