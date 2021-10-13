@@ -1,0 +1,32 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure(2) do |config|
+
+  if Vagrant.has_plugin?("vagrant-vbguest")
+    config.vbguest.auto_update = false
+  end
+
+  config.ssh.insert_key = false
+  config.ssh.verify_host_key = false
+  config.vm.box_check_update = false
+  config.vm.synced_folder ".""", "/vagrant", id: "vagrant-root", disabled: true
+
+  config.vm.define 'rhel8' do |srv|
+    srv.vm.box = 'rhel8'
+    srv.vm.hostname = 'rhel8'
+    srv.vm.network 'private_network', ip: '192.168.33.16'
+    srv.vm.provider :virtualbox do |virtualbox|
+      virtualbox.name = 'rhel8'
+      virtualbox.gui = false
+      virtualbox.customize ["modifyvm", :id, "--memory", 4096]
+      virtualbox.customize ["modifyvm", :id, "--vram", "64"]
+    end
+    srv.vm.provider :vmware_fusion do |vmware|
+      vmware.gui = false
+      vmware.vmx['memsize'] = "4096"
+      vmware.vmx['numvcpus'] =  "2"
+    end
+  end
+
+end
