@@ -34,21 +34,6 @@
     - tower
     - setup
 
-- name: Check if postgres is running
-  delegate_to: "{{ pg_host }}"
-  service_facts:
-  no_log: true
-  tags:
-    - tower
-    - test
-
-- name: Display postgres state
-  debug:
-    var: ansible_facts.services['rh-postgresql10-postgresql.service']
-  tags:
-    - tower
-    - test
-
 - name: Declare variable for tower_state
   set_fact:
     tower_state: 'unknown'
@@ -86,7 +71,6 @@
   wait_for:
     port: "{{ item }}"
   with_items:
-    - 25
     - 80
     - 443
   tags:

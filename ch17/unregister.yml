@@ -1,0 +1,12 @@
+#!/usr/bin/env ansible-playbook
+---
+
+- hosts: all:!localhost
+  become: true
+  gather_facts: true
+
+  pre_tasks:
+    - name: Unregister RHEL8
+      redhat_subscription:
+        state: absent
+...

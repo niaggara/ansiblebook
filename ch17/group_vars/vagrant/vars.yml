@@ -2,7 +2,7 @@
 # these are obviously for demo purposes.
 munin_password: 'IT-audited?'
 vault_postgres_user: 'dba'
-vault_postgres_pass: 'IT-audited?'
+vault_postgres_pass: 'Do_not_use_special_characters_in_pg_password_as_it_may_cause_the_setup_to_fail'
 pg_password: "{{ vault_postgres_pass }}"
 redis_password: 'IT-audited?'
 tower_validate_certs: false

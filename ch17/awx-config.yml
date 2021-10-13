@@ -7,9 +7,9 @@
   gather_facts: false
 
   vars:
-    tower_host: "{{ groups.tower[0] }}"
+    awx_host: "{{ groups.automationcontroller[0] }}"
     # yamllint disable-line rule:line-length
-    cfg: "-k --conf.host https://{{ tower_host }} --conf.user {{ tower_user | default('admin', true) }}"
+    cfg: "-k --conf.host https://{{ awx_host }} --conf.user {{ awx_user | default('admin', true) }}"
 
   tasks:
     - name: Install collections
@@ -27,11 +27,11 @@
       command: "awx {{ cfg }} --conf.password {{ admin_password }} -k login"
       register: awx_login
 
-    - name: Set tower_token
+    - name: Set awx_token
       delegate_to: localhost
       run_once: true
       set_fact:
-        tower_token: "{{ awx_login.stdout | from_json | json_query('token') }}"
+        awx_token: "{{ awx_login.stdout | from_json | json_query('token') }}"
 
     - name: Create ~/.tower_cli.cfg
       delegate_to: localhost

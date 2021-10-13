@@ -1,0 +1,5 @@
+---
+
+tower_name: ansible-automation-platform-setup-bundle-2.0.1-1-early-access
+setup_bundle: "{{ tower_name }}.tar.gz"
+...

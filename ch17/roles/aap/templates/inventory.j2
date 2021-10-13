@@ -1,10 +1,12 @@
-[tower]
-{{ groups.tower[0] }}
+[automationcontroller]
+{{ groups.automationcontroller[0] }}
 [automationhub]
 {{ groups.automationhub[0] }}
 
 [database]
 {{ groups.database[0] }}
+
+[servicescatalog_workers]
 
 [all:vars]
 admin_password={{ admin_password }}
@@ -12,10 +14,17 @@ admin_password={{ admin_password }}
 pg_host={{ groups.database[0] }}
 pg_port=5432
 
-pg_database='tower'
-pg_username='tower'
+pg_database='awx'
+pg_username='awx'
 pg_password={{ pg_password }}
 pg_sslmode='prefer'  # set to 'verify-full' for client-side enforced SSL
+
+# Execution Environment Configuration
+# Credentials for container registry to pull execution environment images from,
+# comment out registry_username if authentication is not required
+# registry_url='registry.redhat.io'
+# registry_username=''
+# registry_password=''
 
 # Automation Hub Configuration
 #
@@ -70,11 +79,6 @@ automationhub_require_content_approval = False
 # and automationhub_ssl_key, one should toggle that value to True.
 #
 # automationhub_ssl_validate_certs = False
-
-# Isolated Tower nodes automatically generate an RSA key for authentication;
-# To disable this behavior, set this value to false
-# isolated_key_generation=true
-
 
 # SSL-related variables
 
