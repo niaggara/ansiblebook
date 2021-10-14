@@ -39,7 +39,7 @@
         hosts:
           - "{{ item.host }}"
       with_items:
-        - group: tower
+        - group: automationcontroller
           host: 'server03'
         - group: automationhub
           host: 'server02'
