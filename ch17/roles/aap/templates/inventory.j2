@@ -22,9 +22,9 @@ pg_sslmode='prefer'  # set to 'verify-full' for client-side enforced SSL
 # Execution Environment Configuration
 # Credentials for container registry to pull execution environment images from,
 # comment out registry_username if authentication is not required
-# registry_url='registry.redhat.io'
-# registry_username=''
-# registry_password=''
+registry_url='registry.redhat.io'
+registry_username='{{ registry_username }}'
+registry_password='{{ registry_password }}'
 
 # Automation Hub Configuration
 #
