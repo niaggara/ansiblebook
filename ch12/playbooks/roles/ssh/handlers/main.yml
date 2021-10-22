@@ -5,8 +5,8 @@
     msg: "checking /etc/ssh/sshd_config first"
   changed_when: true
   notify:
-    - check sshd configuration
-    - restart sshd - after config check
+    - Check sshd configuration
+    - Restart sshd - after config check
 
 - name: Check sshd configuration
   become: true

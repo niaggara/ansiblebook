@@ -77,7 +77,7 @@
     - ssh
     - crypto
 
-- name: Omprove SSHd KexAlgorithms
+- name: Improve SSHd KexAlgorithms
   become: true
   lineinfile:
     dest: "{{ sshd_policy_file }}"
@@ -133,7 +133,7 @@
     - ssh
     - crypto
 
-- name: Sethost key spermissions
+- name: Set host key permissions
   become: true
   file:
     path: /etc/ssh/ssh_host_ed25519_key
@@ -175,7 +175,7 @@
     - ssh
     - crypto
 
-- name: Dactivate short Diffie-Hellman moduli
+- name: Deactivate short Diffie-Hellman moduli
   become: true
   when: sshd_register_moduli.stdout
   shell: "awk '$5 >= 3071' /etc/ssh/moduli > /etc/ssh/moduli.safe && mv -f /etc/ssh/moduli.safe /etc/ssh/moduli"
