@@ -1,0 +1,196 @@
+---
+
+- name: Setup
+  setup:
+  tags:
+    - ssh
+
+- name: Include OS specific variables
+  include_vars: "{{ ansible_distribution }}.yml"
+  tags:
+    - ssh
+    - goss
+
+- name: Print out operating system details
+  debug:
+    msg: >-
+      os_family:
+      {{ ansible_os_family }},
+      distro:
+      {{ ansible_distribution }}
+      {{ ansible_distribution_version }},
+      sshd_policy_file:
+      {{ sshd_policy_file }}
+      crypto: {{ crypto_settings }}
+  tags:
+    - ssh
+
+- name: Load crypto vars
+  include_vars: "{{ crypto_settings }}"
+  tags:
+    - ssh
+    - crypto
+    - goss
+
+- name: Ensure SSH server is installed
+  package:
+    name: openssh-server
+    state: present
+
+- name: Ensure SSH server is running
+  service:
+    name: sshd
+    enabled: true
+    state: started
+
+- name: Copy Goss template to remote
+  become: true
+  template:
+    src: test_sshd.yaml
+    dest: "{{ goss_test_directory | default('/etc/goss.d', true) }}/"
+    owner: "{{ goss_user | default('root', true) }}"
+    group: "{{ goss_group | default('users', true) }}"
+    mode: 0644
+  notify: Goss
+  tags:
+    - ssh
+    - crypto
+    - goss
+
+- name: Change ssh key to ed25519
+  authorized_key:
+    user: root
+    key: "{{ lookup('file', '~/.ssh/id_ed25519.pub') }}"
+    exclusive: true
+  tags:
+    - ssh
+
+- name: Set permissions
+  become: true
+  file:
+    owner: root
+    group: root
+    path: "{{ sshd_policy_file }}"
+    mode: "{{ sshd_policy_mode }}"
+    state: touch
+  tags:
+    - ssh
+
+- name: Improve SSHd Ciphers
+  become: true
+  lineinfile:
+    dest: "{{ sshd_policy_file }}"
+    regexp: '^Ciphers'
+    line: "Ciphers {{ Ciphers }}"
+    state: present
+  notify: Restart sshd
+  tags:
+    - ssh
+    - crypto
+
+- name: Improve SSHd KexAlgorithms
+  become: true
+  lineinfile:
+    dest: "{{ sshd_policy_file }}"
+    regexp: '^KexAlgorithms'
+    line: "KexAlgorithms {{ KexAlgorithms }}"
+    state: present
+  notify: Restart sshd
+  tags:
+    - ssh
+    - crypto
+
+- name: Improve SSHd MACs
+  become: true
+  lineinfile:
+    dest: "{{ sshd_policy_file }}"
+    regexp: '^MACs'
+    line: "MACs {{ MACs }}"
+    state: present
+  notify: Restart sshd
+  tags:
+    - ssh
+    - crypto
+
+- name: Improve SSHd HostKeyAlgorithms
+  become: true
+  lineinfile:
+    dest: "{{ sshd_policy_file }}"
+    regexp: '^HostKeyAlgorithms'
+    line: "HostKeyAlgorithms {{ HostKeyAlgorithms }}"
+    state: present
+  notify: Restart sshd
+  tags:
+    - ssh
+    - crypto
+
+- name: Check the ed25519 host key
+  become: true
+  stat:
+    path: /etc/ssh/ssh_host_ed25519_key
+  register: ed25519
+  tags:
+    - ssh
+    - crypto
+
+- name: Generate ed25519 host key
+  become: true
+  command: ssh-keygen -t ed25519 -f /etc/ssh/ssh_host_ed25519_key -N ""
+  when:
+    - not ed25519.stat.exists|bool
+  notify: Restart sshd
+  changed_when: true
+  tags:
+    - ssh
+    - crypto
+
+- name: Set host key permissions
+  become: true
+  file:
+    path: /etc/ssh/ssh_host_ed25519_key
+    mode: 0600
+  tags:
+    - ssh
+    - crypto
+
+- name: Configure ed25519 host key
+  become: true
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: '^HostKey /etc/ssh/ssh_host_ed25519_key'
+    line: 'HostKey /etc/ssh/ssh_host_ed25519_key'
+    insertbefore: '^# HostKey /etc/ssh/ssh_host_rsa_key'
+    mode: 0600
+    state: present
+  notify: Restart sshd
+  tags:
+    - ssh
+    - crypto
+
+- name: Disable weak host keys
+  when: weak_host_keys|length >= 1
+  include_tasks: weak_keys.yml
+  loop: "{{ weak_host_keys }}"
+  tags:
+    - ssh
+    - crypto
+
+- name: Check if /etc/ssh/moduli contains weak Diffie-Hellman moduli
+  become: true
+  shell: awk '$5 < 2048' /etc/ssh/moduli
+  register: sshd_register_moduli
+  changed_when: false
+  no_log: true
+  check_mode: false
+  tags:
+    - ssh
+    - crypto
+
+- name: Deactivate short Diffie-Hellman moduli
+  become: true
+  when: sshd_register_moduli.stdout
+  shell: "awk '$5 >= 3071' /etc/ssh/moduli > /etc/ssh/moduli.safe && mv -f /etc/ssh/moduli.safe /etc/ssh/moduli"
+  tags:
+    - tags
+    - crypto
+...

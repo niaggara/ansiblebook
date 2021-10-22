@@ -1,0 +1,4 @@
+---
+sshd_policy_file: /etc/ssh/sshd_config
+sshd_policy_mode: 0600
+...
