@@ -1,7 +1,7 @@
 awxkit
 ansible<2.10
-ansible-lint
+ansible-lint==4.3.7
 ansible-tower-cli
-yamllint
+yamllint==1.26.3
 jmespath
 ssh-audit
