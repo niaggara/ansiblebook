@@ -1,15 +1,15 @@
 ansible==4.0.0
 ansible-core==2.11.0
 ansible-lint==5.0.12
+ansible-lint==1.4.1
 flake8
 jmespath==0.10.0
 molecule==3.3.4
 molecule-docker==0.2.4
-molecule-vagrant-0.6.3
+molecule-vagrant==0.6.3
 paramiko==2.7.2
 passlib
 dnspython
-pre-commit
 pycodestyle
 pyflakes
 pylint
