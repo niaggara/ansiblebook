@@ -1,6 +1,6 @@
 # Tower
 
-This project creates 3 Centos7 VMs with Vagrant/Virtualbox. The ansible provisioner will install Tower from your local ~/Downloads/.
+This project creates 3 RHEL8 VMs with Vagrant/Virtualbox. The ansible provisioner will install Tower from your local ~/Downloads/.
 
 ## Usage:
 - If you have a Mac with Homebrew, then you can install what's in the Brewfile with `brew bundle`
