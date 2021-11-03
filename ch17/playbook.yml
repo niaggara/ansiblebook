@@ -31,7 +31,7 @@
 
   pre_tasks:
 
-    - name: set vars
+    - name: Set vars
       set_fact:
         registry_username: "{{ lookup('env','RH_USER') }}"
         registry_password: "{{ lookup('env','RH_PASS') }}"
