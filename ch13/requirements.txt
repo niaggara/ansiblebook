@@ -1,0 +1,16 @@
+ansible==4.0.0
+ansible-core==2.11.6
+ansible-lint==5.2.1
+ansible-later==1.4.0
+flake8
+jmespath==0.10.0
+molecule==3.2.3
+molecule-docker==0.2.4
+molecule-vagrant==0.6.3
+paramiko==2.7.2
+passlib
+dnspython
+pylint
+python-vagrant
+requests==2.25.1
+yamllint==1.26.3

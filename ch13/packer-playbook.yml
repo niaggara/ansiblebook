@@ -1,0 +1,19 @@
+#!/usr/bin/env ansible-playbook
+---
+
+- hosts: all:!localhost
+  become: true
+  gather_facts: false
+
+  tasks:
+    - name: Register RHEL 8
+      redhat_subscription:
+        state: present
+        username: "{{ lookup('env','RH_USER') }}"
+        password: "{{ lookup('env','RH_PASS') }}"
+        pool_ids: "{{ lookup('env','RH_POOL') }}"
+        syspurpose:
+          role: "Red Hat Enterprise Server"
+          usage: "Development/Test"
+          service_level_agreement: "Self-Support"
+...

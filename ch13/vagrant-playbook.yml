@@ -1,0 +1,14 @@
+#!/usr/bin/env ansible-playbook
+---
+
+- hosts: all:!localhost
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Update packages
+      yum:
+        name: "*"
+        state: latest
+
+...
