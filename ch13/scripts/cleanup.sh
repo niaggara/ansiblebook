@@ -25,7 +25,9 @@ rm -rf /tmp/vola /tmp/*.gz /tmp/packer-provisioner-ansible-local
 case "$PACKER_BUILDER_TYPE" in
 
   virtualbox-iso)
+      # shellcheck disable=SC2155
       readonly swapuuid=$(/sbin/blkid -o value -l -s UUID -t TYPE=swap)
+      # shellcheck disable=SC2155
       readonly swappart=$(readlink -f /dev/disk/by-uuid/"$swapuuid")
       /sbin/swapoff "$swappart"
       dd if=/dev/zero of="$swappart" bs=1M || echo "dd exit code $? is suppressed"

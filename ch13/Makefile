@@ -2,8 +2,11 @@ lint:
 	vagrant validate
 	packer validate rhel8.pkr.hcl
 	packer validate gcc.pkr.hcl
+	ansible-inventory  --graph
+	ansible-playbook --syntax-check playbooks/*.yml
 	ansible-lint playbooks/*.yml
 	ansible-later
+	shellcheck scripts/*
 
 clean:
 	@vagrant destroy -f
