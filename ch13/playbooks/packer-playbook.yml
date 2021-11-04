@@ -24,6 +24,4 @@
       loop:
         - podman
         - skopeo
-
-
 ...

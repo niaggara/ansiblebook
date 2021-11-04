@@ -11,7 +11,7 @@ fi
 yum clean all
 
 # minimize disk usage
-find /var/log/ -name *.log -exec rm -f {} \;
+find /var/log/ -name "./*.log" -exec rm -f {} \;
 rm -f /var/log/anaconda.syslog
 rm -f /var/log/dmesg.old
 truncate -s0 /var/log/lastlog
