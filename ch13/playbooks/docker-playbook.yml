@@ -8,7 +8,7 @@
     # Install Software Collections?
     collections_enabled: true
     # Devtoolset to compile with
-    DTSVER: 8
+    DTSVER: 10
     # C++ compiler to compile
     GCCVER: '11.2.0'
     dependencies_url_signed: false
