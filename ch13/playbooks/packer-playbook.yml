@@ -16,4 +16,14 @@
           role: "Red Hat Enterprise Server"
           usage: "Development/Test"
           service_level_agreement: "Self-Support"
+
+    - name: Install packages
+      yum:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - podman
+        - skopeo
+
+
 ...

@@ -32,12 +32,8 @@ Vagrant.configure(2) do |config|
       ansible.compatibility_mode = "2.0"
       ansible_inventory = "inventories/vagrant.ini"
       ansible.galaxy_roles_path = "roles"
-      ansible.playbook = "vagrant-playbook.yml"
+      ansible.playbook = "playbooks/vagrant-playbook.yml"
       ansible.verbose = "v"
-      ansible.groups = {
-        "vault_instances" => ["server1"],
-        "consul_instances" => ["server[1:3]"]
-      }
     end
   end
 

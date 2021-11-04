@@ -10,5 +10,6 @@
       yum:
         name: "*"
         state: latest
-
+      tags:
+        - update
 ...
