@@ -11,5 +11,7 @@ ch05/myproject
 ch06/playbooks/secrets.yml
 ch07/playbooks/secrets.yml
 ch08/playbooks/secrets.yml
+ch13/output-rhel8
+ch17/collections/ansible_collections
 *.retry
 *.pyc
