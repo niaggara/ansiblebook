@@ -20,8 +20,10 @@ vagrant:
 	vagrant box add --name RedHat-EL8 output-rhel8/rhel8.box
 	vagrant up
 
-container:
+container: lint
 	@packer init .
 	packer build gcc.pkr.hcl
 
-vm: clean box vagrant
+vm: clean lint box vagrant
+
+all: container vm
