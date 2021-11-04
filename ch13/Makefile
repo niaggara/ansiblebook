@@ -1,3 +1,10 @@
+lint:
+	vagrant validate
+	packer validate rhel8.pkr.hcl
+	packer validate gcc.pkr.hcl
+	ansible-lint playbooks/*.yml
+	ansible-later
+
 clean:
 	@vagrant destroy -f
 	@vagrant box remove RedHat-EL8 || /usr/bin/true
