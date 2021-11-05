@@ -1,0 +1,18 @@
+#!/usr/bin/env ansible-playbook
+---
+- name: Docker Container Examples
+  hosts: localhost
+  gather_facts: False
+
+  tasks:
+
+    - name: Create Nginx image
+      docker_image:
+        build:
+          path: ./nginx
+        source: build
+        state: present
+        force_source: "{{ force_source | default(false) }}"
+        name: ansiblebook/nginx-ghost
+        tag: "{{ tag | default('v1') }}"
+
