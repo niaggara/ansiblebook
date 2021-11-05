@@ -31,7 +31,7 @@ build {
 
   post-processors {
     post-processor "docker-tag" {
-        repository =  "localhost/gcc-centos7"
+        repository =  "localhost/gcc11-centos7"
         tags = ["0.1"]
       }
   }
