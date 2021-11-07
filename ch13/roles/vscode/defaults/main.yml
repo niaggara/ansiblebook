@@ -6,7 +6,6 @@ vscode_extensions:
   - ms-vscode-remote.remote-containers
   - redhat.ansible
   - redhat.vscode-commons
-  - redhat.vscode-yaml
   - wholroyd.HCL
   - wholroyd.jinja
 ...
