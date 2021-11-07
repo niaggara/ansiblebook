@@ -13,8 +13,6 @@
     - name: password
       prompt: Enter Docker Registry password
       private: true
-    - name: tag
-      prompt: Enter tag for image
 
   tasks:
 
@@ -28,7 +26,7 @@
 
     - name: Push image up
       docker_image:
-        name: "ansiblebook/nginx-ghost:{{ tag }}"
+        name: "bbaassssiiee/nginx-ghost"
         push: true
         source: local
         state: present

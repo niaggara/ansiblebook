@@ -2,7 +2,7 @@
 ---
 - name: Docker Container Examples
   hosts: localhost
-  gather_facts: False
+  gather_facts: false
 
   tasks:
 
@@ -13,6 +13,6 @@
         source: build
         state: present
         force_source: "{{ force_source | default(false) }}"
-        name: ansiblebook/nginx-ghost
-        tag: "{{ tag | default('v1') }}"
-
+        name: bbaassssiiee/nginx-ghost
+        tag: "{{ tag | default('latest') }}"
+...

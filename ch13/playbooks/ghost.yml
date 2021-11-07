@@ -2,24 +2,26 @@
 ---
 - name: Run Ghost locally
   hosts: localhost
-  gather_facts: False
+  gather_facts: false
   tasks:
+
     - name: Create Nginx image
       docker_image:
         build:
           path: ./nginx
         source: build
-        name: ansiblebook/nginx-ghost
+        name: bbaassssiiee/nginx-ghost
         state: present
         force_source: "{{ force_source | default(false) }}"
-        tag:  "{{ tag | default('v1') }}"
+        tag: "{{ tag | default('v1') }}"
 
     - name: Create certs
       command: >
         opensst req -new -x509 -nodes
         -out certs/nginx.crt -keyout certs/nginx.key
         -subj '/CN=localhost' -days 3650
-        creates=certs/nginx.crt
+      args:
+        creates: certs/nginx.crt
 
     - name: Bring up services
       docker_compose:

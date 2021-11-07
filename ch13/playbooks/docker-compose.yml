@@ -2,7 +2,7 @@
 version: '2'
 services:
   nginx:
-    image: ansiblebook/nginx-ghost
+    image: bbaassssiiee/nginx-ghost
     ports:
       - "8000:80"
       - "8443:443"

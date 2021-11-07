@@ -1,0 +1,114 @@
+#!/usr/bin/env ansible-playbook
+---
+
+- name: Deploy database
+  hosts: database
+  become: true
+  gather_facts: false
+
+  handlers:
+
+    - name: Restart Mysql
+      systemd:
+        name: mysql
+        state: restarted
+
+  tasks:
+    - name: Listen
+      lineinfile:
+        path: /etc/mysql/mysql.conf.d/mysqld.cnf
+        regexp: '^bind-address'
+        line: 'bind-address           = 0.0.0.0'
+        state: present
+      notify: Restart Mysql
+
+    - name: Create database
+      mysql_db:
+        name: "{{ database_name }}"
+        state: present
+        login_unix_socket: /var/run/mysqld/mysqld.sock
+
+    - name: Create database user
+      mysql_user:
+        name: "{{ database_user }}"
+        password: "{{ database_password }}"
+        priv: '{{ database_name }}.*:ALL'
+        host: '%'
+        state: present
+        login_unix_socket: /var/run/mysqld/mysqld.sock
+
+- name: Deploy Ghost
+  hosts: ghost
+  become: true
+  gather_facts: false
+
+  vars:
+    url: "https://{{ inventory_hostname
+    }}"
+    database_host: "{{ groups['database'][0] }}"
+    data_dir: /data/ghostdata
+    certs_dir: /data/certs
+    net_name: ghostnet
+
+  tasks:
+
+    - name: Create network
+      docker_network:
+        name: "{{ net_name }}"
+
+    - name: Create ghostdata directory
+      file:
+        path: "{{ data_dir }}"
+        state: directory
+        mode: 0750
+
+    - name: Start ghost container
+      docker_container:
+        name: ghost
+        image: ghost
+        container_default_behavior: compatibility
+        network_mode: "{{ net_name }}"
+        networks:
+          - name: "{{ net_name }}"
+        volumes:
+          - "{{ data_dir }}:/var/lib/ghost/content"
+        env:
+          database__client: mysql
+          database__connection__host: "{{ database_host }}"
+          database__connection__user: "{{ database_user }}"
+          database__connection__password: "{{ database_password }}"
+          database__connection__database: "{{ database_name }}"
+          url: "https://{{ inventory_hostname }}"
+          NODE_ENV: production
+
+    - name: Create certs directory
+      file:
+        path: "{{ certs_dir }}"
+        state: directory
+        mode: 0750
+
+    - name: Generate tls certs
+      command: >
+        openssl req -new -x509 -nodes
+        -out "{{ certs_dir }}/nginx.crt"
+        -keyout "{{ certs_dir }}/nginx.key"
+        -subj "/CN={{ ansible_host }}" -days 3650
+      args:
+        creates: certs/nginx.crt
+
+    - name: Start nginx container
+      docker_container:
+        name: nginx_ghost
+        image: bbaassssiiee/nginx-ghost
+        container_default_behavior: compatibility
+        network_mode: "{{ net_name }}"
+        networks:
+          - name: "{{ net_name }}"
+        pull: true
+        ports:
+          - "0.0.0.0:80:80"
+          - "0.0.0.0:443:443"
+        volumes:
+          - "{{ certs_dir }}:/certs"
+
+...
