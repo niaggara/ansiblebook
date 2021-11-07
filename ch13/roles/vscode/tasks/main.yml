@@ -1,6 +1,5 @@
 ---
 
-
 - name: Install yum repo
   yum_repository:
     name: code
@@ -18,7 +17,8 @@
 - name: Install extensions
   command: "code --install-extension {{ item }}"
   become: true
-  become_user: "{{ vscode_user|default('vagrant') }}"
+  become_user: "{{ vscode_user | default('vagrant') }}"
   register: result
   loop: "{{ vscode_extensions }}"
   changed_when: result.stdout is not search('is already installed.')
+...

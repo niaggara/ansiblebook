@@ -1,0 +1,11 @@
+---
+
+collections:
+  - ansible.netcommon
+  - ansible.posix
+  - ansible.utils
+  - ansible.windows
+  - awx.awx
+  - community.general
+  - community.crypto
+  - community.docker
