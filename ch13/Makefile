@@ -17,8 +17,8 @@ output-rhel8/rhel8.box:
 	packer build rhel8.pkr.hcl
 
 virtualbox: output-rhel8/rhel8.box
-	vagrant box add --name RedHat-EL8 output-rhel8/rhel8.box
-	vagrant up
+	vagrant box add --force --name RedHat-EL8 output-rhel8/rhel8.box
+	vagrant up rhel8
 
 container: lint
 	@packer init .

@@ -80,7 +80,12 @@
   become: true
   gather_facts: true
 
-  tasks:
+  roles:
+    - role: vscode
+      tags:
+        - vscode
+
+  post_tasks:
     - name: Update packages
       yum:
         name: "*"

@@ -27,17 +27,18 @@ Vagrant.configure(2) do |config|
     srv.vm.box = 'RedHat-EL8'
     srv.vm.hostname = 'vagrant-EL8'
     srv.vm.network 'private_network', ip: '192.168.33.8'
+    srv.vbguest.auto_update = true
     srv.vm.provider :virtualbox do |virtualbox|
       virtualbox.name = 'vagrant-EL8'
       virtualbox.gui = false
       virtualbox.customize ["modifyvm", :id,
-      "--audio", "none",
-      "--cpus", 2,
-      "--memory", 4096,
-      "--vrde", "on",
-      "--graphicscontroller", "VMSVGA",
-      "--vram", "64"
-   ]
+        "--audio", "none",
+        "--cpus", 2,
+        "--memory", 4096,
+        "--vrde", "on",
+        "--graphicscontroller", "VMSVGA",
+        "--vram", "64"
+      ]
     end
   end
   config.vm.define "mysql", autostart: true do |mysql|
