@@ -14,14 +14,14 @@
         force_source: "{{ force_source | default(false) }}"
         tag:  "{{ tag | default('v1') }}"
 
-    - name: create certs
+    - name: Create certs
       command: >
         opensst req -new -x509 -nodes
         -out certs/nginx.crt -keyout certs/nginx.key
         -subj '/CN=localhost' -days 3650
         creates=certs/nginx.crt
 
-    - name: bring up services
+    - name: Bring up services
       docker_compose:
         project_src: .
         state: present
