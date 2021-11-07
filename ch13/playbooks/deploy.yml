@@ -43,8 +43,7 @@
   gather_facts: false
 
   vars:
-    url: "https://{{ inventory_hostname
-    }}"
+    url: "https://{{ inventory_hostname }}"
     database_host: "{{ groups['database'][0] }}"
     data_dir: /data/ghostdata
     certs_dir: /data/certs
