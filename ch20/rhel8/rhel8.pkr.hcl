@@ -57,7 +57,7 @@ build {
   }
 
   provisioner "ansible" {
-    playbook_file = "./playbooks/packer-playbook.yml"
+    playbook_file = "./packer-playbook.yml"
   }
 
   post-processors {
