@@ -1,0 +1,35 @@
+---
+
+- include: discover.yml
+  when:
+    - groups['redis_server']|length > 0
+    - redis_sentinel is not defined
+- include: tuning.yml
+  when:
+    - redis_server is defined
+    - redis_server|bool
+    - redis_sentinel is not defined
+  tags:
+    - tuning
+
+- include: install.yml
+  when:
+    - redis_server is defined
+    - redis_server|bool
+    - redis_sentinel is not defined
+  tags:
+    - install
+
+- include: server.yml
+  when:
+    - redis_server is defined
+    - redis_server|bool
+    - redis_sentinel is not defined
+  tags:
+    - config
+
+- include: sentinel.yml
+  when: redis_sentinel is defined
+  tags:
+    - config
+...

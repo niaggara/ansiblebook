@@ -1,0 +1,79 @@
+---
+redis_server_master_index: 0
+systemd_path: /usr/lib/systemd/system/rh-redis5-redis.service
+redis_bind: true
+redis_port: 6379
+redis_bind_interface: 0.0.0.0
+redis_unixsocket: false
+redis_timeout: 300
+redis_master: mymaster
+# Set slaveof just as you would in redis.conf. (e.g. "redis01 6379")
+redis_slaveof: false
+# Make slaves read-only. "yes" or "no"
+redis_slave_read_only: "yes"
+redis_slave_priority: 100
+redis_repl_backlog_size: false
+# Slave replication options
+redis_min_slaves_to_write: 0
+redis_min_slaves_max_lag: 10
+redis_sentinel_bind: 0.0.0.0
+redis_sentinel_port: 26379
+redis_databases: 16
+redis_loglevel: "notice"
+redis_logfile: /var/opt/rh/rh-redis5/log/redis/redis.log
+redis_pidfile: "/var/opt/rh/rh-redis5/run/redis.pid"
+redis_sentinel_dir: /srv/sentinel
+redis_sentinel_pidfile: "/var/opt/rh/rh-redis5/run/redis.pid"
+redis_sentinel_conf: "/etc/opt/rh/rh-redis5/redis-sentinel.conf"
+redis_sentinel_logfile: /var/opt/rh/rh-redis5/log/redis/sentinel.log
+
+redis_user: redis
+redis_group: root
+
+# Set to an empty set to disable persistence (saving the DB to disk).
+# For example, this configuration will make Redis automatically
+# dump the dataset to disk:
+# every 900 seconds if at least 1 key changes:
+# every 300 seconds if at least 10 keys changed:
+# every 60 seconds if at least 10000 keys changed:
+redis_save:
+  - 900 1
+  - 300 10
+  - 60 10000
+
+redis_rdbcompression: "yes"
+redis_dbfilename: dump.rdb
+redis_dbdir: /srv/redis
+
+redis_maxmemory: 0
+redis_maxmemory_policy: "noeviction"
+redis_maxmemory_samples: 5
+
+redis_appendonly: "no"
+redis_appendfsync: "everysec"
+
+# Add extra include files for local configuration/overrides.
+redis_includes: []
+
+# require password authentication to Redis by defining a password.
+# redis_password: ''
+
+# Disable certain Redis commands for security reasons.
+redis_disabled_commands: []
+#  - DEBUG
+#  - FLUSHDB
+#  - FLUSHALL
+#  - KEYS
+#  - PEXPIRE
+#  - DEL
+#  - CONFIG
+#  - BGREWRITEAOF
+#  - BGSAVE
+#  - SAVE
+#  - SPOP
+#  - SREM
+#  - RENAME
+#  - SHUTDOWN
+
+configure_firewalld: true
+...

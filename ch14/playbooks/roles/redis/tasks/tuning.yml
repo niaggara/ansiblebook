@@ -1,0 +1,45 @@
+---
+
+- name: Adjust max connections in kernel
+  sysctl:
+    name: net.core.somaxconn
+    value: '65535'
+    state: present
+    reload: true
+  tags:
+    - kernel
+    - tuning
+
+- name: Adjust vm.overcommit_memory
+  sysctl:
+    name: vm.overcommit_memory
+    value: '1'
+    state: present
+    reload: true
+  tags:
+    - kernel
+    - tuning
+
+# When running redis, it's recommended to disable transparent huge pages.
+# The best way to disable it is to append "transparent_hugepage: never" to
+# the kernel cmdline, but there isn't a robust way to do that with Ansible
+# so instead we'll run a boot script.
+- name: Disable transparent huge pages
+  copy:
+    src: "disable-transparent-huge-pages.service"
+    dest: "/etc/systemd/system/disable-transparent-huge-pages.service"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+  tags:
+    - tuning
+
+- name: Enable and start disable-transparent-huge-pages
+  systemd:
+    name: 'disable-transparent-huge-pages'
+    daemon_reload: true
+    enabled: true
+    state: started
+  tags:
+    - tuning
+...

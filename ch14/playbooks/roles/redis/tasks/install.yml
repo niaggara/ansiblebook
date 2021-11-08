@@ -1,0 +1,39 @@
+---
+
+- name: Define redis_package.
+  set_fact:
+    redis_package: "{{ __redis_package }}"
+  when: redis_package is not defined
+
+- name: Install Centos software collections
+  package:
+    name: centos-release-scl-rh
+    state: present
+  register: network_access
+  until: network_access is success
+  retries: 3
+  delay: 2
+  when: ansible_distribution == 'CentOS'
+
+- name: Enable RHEL software collections
+  # yamllint disable-line rule:line-length
+  command: "yum-config-manager --enable rhel-server-rhscl-{{ ansible_distribution_major_version }}-rpms"
+  changed_when: false
+  when: ansible_distribution == 'RedHat'
+
+- name: Ensure Redis is installed.
+  package:
+    name: "{{ redis_package }}"
+    update_cache: true
+    state: present
+
+- name: Ensure firewalld is running.
+  when:
+    - ansible_connection != 'docker'
+    - configure_firewalld
+  systemd:
+    name: firewalld
+    daemon-reload: true
+    enabled: true
+    state: started
+...

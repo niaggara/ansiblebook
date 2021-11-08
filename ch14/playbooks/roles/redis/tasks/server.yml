@@ -1,0 +1,46 @@
+---
+
+- name: Ensure Redis is configured.
+  template:
+    src: "{{ item }}.j2"
+    dest: "{{ redis_conf_path }}/{{ item }}"
+    owner: "{{ redis_user }}"
+    group: "{{ redis_group }}"
+    setype: redis_var_lib_t
+    mode: 0640
+  with_items:
+    - redis.conf
+  notify: Restart redis
+
+- name: Creates redisdb directory
+  file:
+    path: "{{ redis_dbdir }}"
+    state: directory
+    owner: "{{ redis_user }}"
+    group: "{{ redis_group }}"
+    mode: 0755
+    setype: redis_var_lib_t
+  notify: Restart redis
+
+- name: Firewalld configuration redis-server
+  when:
+    - ansible_connection != 'docker'
+    - configure_firewalld
+  firewalld:
+    port: "{{ redis_port }}/tcp"
+    permanent: true
+    state: enabled
+    immediate: true
+  tags:
+    - redis
+    - firewall
+    - security
+
+- name: Ensure Redis is enabled on boot.
+  systemd:
+    name: "{{ redis_daemon }}"
+    enabled: true
+  notify: Restart redis
+  tags:
+    - redis
+...

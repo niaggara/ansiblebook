@@ -1,0 +1,67 @@
+---
+command:
+  /opt/rh/rh-redis5/root/usr/bin/redis-cli info:
+    exit-status: 0
+    stdout:
+      - executable:/opt/rh/rh-redis5/root/usr/bin/redis-server
+      - config_file:/etc/opt/rh/rh-redis5/redis.conf
+    stderr: []
+    timeout: 10000
+file:
+  /etc/opt/rh/rh-redis5/redis.conf:
+    exists: true
+    mode: "0640"
+    owner: redis
+    group: root
+    filetype: file
+    contains: []
+  /opt/rh/rh-redis5/enable:
+    exists: true
+    mode: "0644"
+    owner: root
+    group: root
+    filetype: file
+    contains: []
+  /opt/rh/rh-redis5/root/usr/bin/redis-cli:
+    exists: true
+    mode: "0755"
+    owner: root
+    group: root
+    filetype: file
+    contains: []
+  /opt/rh/rh-redis5/root/usr/bin/redis-server:
+    exists: true
+    mode: "0755"
+    owner: root
+    group: root
+    filetype: file
+    contains: []
+package:
+  rh-redis5:
+    installed: true
+port:
+  tcp:6379:
+    listening: true
+service:
+  rh-redis5-redis.service:
+    enabled: true
+    running: true
+user:
+  redis:
+    exists: true
+    groups:
+      - redis
+    home: /var/opt/rh/rh-redis5/lib/redis
+    shell: /sbin/nologin
+group:
+  redis:
+    exists: true
+process:
+  redis-server:
+    running: true
+# Kernel
+net.core.somaxconn:
+  value: "65535"
+vm.overcommit_memory:
+  value: "1"
+...

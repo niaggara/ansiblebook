@@ -1,0 +1,9 @@
+---
+# vars file for base_redis
+
+__redis_package: rh-redis5
+redis_daemon: rh-redis5-redis
+sentinel_daemon: rh-redis5-redis-sentinel
+redis_conf_path: /etc/opt/rh/rh-redis5
+redis_path: /opt/rh/rh-redis5/root/bin
+...

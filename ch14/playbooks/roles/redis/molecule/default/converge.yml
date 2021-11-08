@@ -1,0 +1,40 @@
+---
+# Install Redis Sentinel on redis_server instances
+# sentinel rewrites its own config file, so not idempotent.
+
+- name: Discover Redis master
+  hosts: redis_server
+  become: true
+  roles:
+    - {role: redis, tags: master, slave}
+
+- name: Install Redis master
+  hosts: redis_leader
+  become: true
+  vars:
+    redis_server: true
+  roles:
+    - {role: redis, tags: master}
+
+- name: Install Redis slaves
+  hosts: redis_server
+  become: true
+  vars:
+    redis_server: true
+  roles:
+    - {role: redis, tags: slave}
+
+- name: Configure Redis sentinel nodes
+  hosts: redis_sentinel
+  become: true
+  vars:
+    redis_sentinel: true
+    redis_sentinel_monitors:
+      - name: mymaster
+        # host: "{{ groups.redis_master[0] }}"
+        host: "{{ master_hostname }}"
+        port: "{{ redis_host }}"
+        quorum: "{{ groups.redis_server|length -1 }}"
+  roles:
+    - {role: redis, tags: sentinel}
+...

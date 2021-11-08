@@ -1,0 +1,50 @@
+---
+
+- name: Ensure Sentinel is configured.
+  when: redis_sentinel is defined
+  template:
+    src: "{{ item }}.j2"
+    dest: "{{ redis_conf_path }}/{{ item }}"
+    owner: "{{ redis_user }}"
+    group: "{{ redis_group }}"
+    mode: 0640
+    setype: redis_var_lib_t
+  with_items:
+    - redis-sentinel.conf
+  notify: Restart sentinel
+
+- name: Creates sentinel directory
+  file:
+    path: "{{ redis_sentinel_dir }}"
+    state: directory
+    owner: "{{ redis_user }}"
+    group: "{{ redis_group }}"
+    mode: 0755
+  notify: Restart sentinel
+
+- name: Firewalld configuration redis sentinel
+  when:
+    - redis_sentinel is defined
+    - ansible_connection != 'docker'
+    - configure_firewalld
+  firewalld:
+    port: "{{ redis_sentinel_port }}/tcp"
+    permanent: true
+    state: enabled
+    immediate: true
+  vars:
+    mitogen_task_isolation: fork
+  tags:
+    - sentinel
+    - firewall
+    - security
+
+- name: Ensure Sentinel is enabled on boot.
+  systemd:
+    name: "{{ sentinel_daemon }}"
+    enabled: true
+  notify: Restart sentinel
+  when: redis_sentinel is defined
+  tags:
+    - sentinel
+...

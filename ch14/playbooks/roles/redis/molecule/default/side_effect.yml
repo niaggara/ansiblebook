@@ -1,0 +1,30 @@
+---
+# Change master Redis on redis_server instances
+
+- name: Change Redis master
+  hosts: redis_server
+  become: true
+  vars:
+    redis_server: true
+    redis_server_master_index: 2
+  roles:
+    - {role: redis, tags: master}
+
+- name: Change Redis master
+  hosts: redis_server
+  become: true
+  vars:
+    redis_server: true
+    redis_server_master_index: 3
+  roles:
+    - {role: redis, tags: master}
+
+- name: Change Redis master
+  hosts: redis_server
+  become: true
+  vars:
+    redis_server: true
+    redis_server_master_index: 4
+  roles:
+    - {role: redis, tags: master}
+...

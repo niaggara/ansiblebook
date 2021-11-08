@@ -1,0 +1,54 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+lint: |
+  set -e
+  yamllint .
+  ansible-lint
+platforms:
+  - name: redis1_centos7
+    image: milcom/centos7-systemd
+    privileged: true
+    groups:
+      - redis_server
+      - redis_sentinel
+    docker_networks:
+      - name: 'redis'
+        ipam_config:
+          - subnet: '10.16.0.0/24'
+    networks:
+      - name: "redis"
+        ipv4_address: '10.16.0.10'
+  - name: redis2_centos7
+    image: milcom/centos7-systemd
+    privileged: true
+    groups:
+      - redis_server
+      - redis_sentinel
+    docker_networks:
+      - name: 'redis'
+        ipam_config:
+          - subnet: '10.16.0.0/24'
+    networks:
+      - name: "redis"
+        ipv4_address: '10.16.0.11'
+  - name: redis3_centos7
+    image: milcom/centos7-systemd
+    privileged: true
+    groups:
+      - redis_server
+      - redis_sentinel
+    docker_networks:
+      - name: 'redis'
+        ipam_config:
+          - subnet: '10.16.0.0/24'
+    networks:
+      - name: "redis"
+        ipv4_address: '10.16.0.12'
+provisioner:
+  name: ansible
+verifier:
+  name: ansible
+...

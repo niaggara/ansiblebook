@@ -1,0 +1,22 @@
+---
+# Standards: 0.2
+galaxy_info:
+  role_name: redis
+  author: Bas Meijer
+  description: Redis Sentinel for RedHat using SCL
+  namespace: bbaassssiiee
+  license: MIT
+  min_ansible_version: 2.9
+  platforms:
+    - name: EL
+      versions:
+        - 7
+  galaxy_tags:
+    - database
+    - development
+    - redis
+    - cache
+    - performance
+
+dependencies: []
+...

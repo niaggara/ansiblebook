@@ -1,0 +1,119 @@
+---
+
+- name: Set facts to configure redis_master
+  run_once: true
+  set_fact:
+    # yamllint disable rule:line-length
+    master_ip: "{{ hostvars[groups.redis_server[redis_server_master_index]].ansible_default_ipv4.address }}"
+    master_hostname: "{{ hostvars[groups.redis_server[redis_server_master_index]].inventory_hostname }}"
+    # yamllint disable rule:line-length
+    redis_state: "uninstalled"
+    host_list: []
+    redis_hosts: []
+
+- name: Display master_ip
+  run_once: true
+  when: master_ip is defined
+  debug:
+    msg: "master_ip: {{ master_ip }}"
+
+- name: Make a list with redis_hosts
+  delegate_to: localhost
+  set_fact:
+    host_list: "{{ host_list + [inventory_hostname] }}"
+
+- name: Convert redis_hosts list to a dict with hostname and ip address
+  delegate_to: localhost
+  set_fact:
+    # yamllint disable-line rule:line-length
+    redis_hosts: "{{ redis_hosts | combine({item: ansible_default_ipv4.address}) }}"
+  with_items: "{{ host_list }}"
+
+- name: Display hostname and ip address of each cluster host
+  delegate_to: localhost
+  debug:
+    msg: "{{ redis_hosts }}"
+
+- name: Get service facts
+  service_facts:
+
+- name: Set redis_state
+  when: ansible_facts.services['rh-redis5-redis.service'] is defined
+  set_fact:
+    # yamllint disable-line rule:line-length
+    redis_state: "{{ ansible_facts.services['rh-redis5-redis.service']['state'] }}"
+
+- name: Display redis_state
+  debug:
+    msg: "redis state is: {{ redis_state }}"
+
+- name: Verify if redis is running as master
+  when: redis_state == 'running'
+  shell: |
+    set -o pipefail; \
+    {{ redis_path }}/redis-cli info replication|grep 'role:master'
+  changed_when: false
+  failed_when: false
+  register: role_master
+
+- name: Display master role_master
+  when: redis_state == 'running'
+  debug:
+    msg: "{{ inventory_hostname }}: {{ role_master.stdout }}"
+
+- name: Verify if another redis is running as master
+  when:
+    - redis_state == 'running'
+    - role_master.rc != 0
+  shell: |
+    set -o pipefail; \
+    {{ redis_path }}/redis-cli info replication|grep master_host|cut -d: -f 2
+  changed_when: false
+  register: replication_info
+
+- name: Set leader_ip
+  when:
+    - replication_info.stdout_lines is defined
+    - replication_info.stdout_lines|length == 1
+  set_fact:
+    leader_ip: "{{ replication_info.stdout }}"
+
+- name: Display leader_ip
+  when: leader_ip is defined
+  debug:
+    msg: "leader_ip: {{ leader_ip }}"
+
+- name: Set master_hostname
+  set_fact:
+    master_hostname: "{{ inventory_hostname }}"
+  when:
+    - master_ip == redis_hosts[ inventory_hostname ]
+
+- name: Display master_hostname
+  when: master_hostname is defined
+  debug:
+    msg: "master_hostname: {{ master_hostname }}"
+
+- name: Set master_ip from master_hostname
+  when:
+    - master_ip == redis_hosts[ inventory_hostname ]
+    - redis_state == 'running'
+  set_fact:
+    master_ip: "{{ redis_hosts[ master_hostname ] }}"
+
+- name: Add master_hostname as redis_leader
+  add_host:
+    name: "{{ master_hostname }}"
+    groups: redis_leader
+
+- name: Set redis_slaveof
+  when: inventory_hostname != master_hostname
+  set_fact:
+    redis_slaveof: "{{ master_ip }} {{ redis_port }}"
+
+- name: Display redis_slaveof
+  when:
+    - redis_slaveof is defined
+  debug:
+    msg: "redis_slaveof: {{ redis_slaveof }}"
+...
