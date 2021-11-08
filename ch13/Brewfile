@@ -1,4 +1,0 @@
-cask "vagrant"
-cask "virtualbox"
-cask "virtualbox-extension-pack"
-brew "python@3.8"

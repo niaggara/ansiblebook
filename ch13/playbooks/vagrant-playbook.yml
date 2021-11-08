@@ -74,22 +74,4 @@
         name: PyMySQL
         state: present
         executable: /usr/bin/pip3
-
-- name: Provision RHEL8 VM
-  hosts: rhel8
-  become: true
-  gather_facts: true
-
-  roles:
-    - role: vscode
-      tags:
-        - vscode
-
-  post_tasks:
-    - name: Update packages
-      yum:
-        name: "*"
-        state: latest
-      tags:
-        - update
 ...
