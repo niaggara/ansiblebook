@@ -25,7 +25,7 @@ build {
   }
 
   provisioner "ansible" {
-    playbook_file = "./playbooks/docker-playbook.yml"
+    playbook_file = "./playbook.yml"
     galaxy_file   = "./roles/requirements.yml"
   }
 
