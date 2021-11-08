@@ -1,0 +1,9 @@
+# source this file in bash
+python3 -m venv .venv --prompt '\[\e[31;40m\]AB\[\e[m\]'
+source .venv/bin/activate
+python3 -m pip install --upgrade pip
+pip3 install wheel
+pip3 install ansible-builder
+pip3 install ansible-runner
+export PATH=.venv/bin/:$PATH
+alias playbook='docker run --rm -v ${PWD}/playbooks:/runner -e RUNNER_PLAYBOOK=playbook.yml ansible-controller'
