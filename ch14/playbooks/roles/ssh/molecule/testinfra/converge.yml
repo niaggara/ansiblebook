@@ -1,0 +1,10 @@
+---
+- name: Converge
+  hosts: all
+  vars:
+    crypto_settings: 'faster.yml'
+  tasks:
+    - name: "Include ssh"
+      include_role:
+        name: "ssh"
+...

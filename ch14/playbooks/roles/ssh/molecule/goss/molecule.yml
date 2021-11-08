@@ -9,7 +9,7 @@ lint: |
   ansible-lint
   ansible-later
 platforms:
-  - name: base-ssh-centos8
+  - name: ssh-centos8
     image: centos:8
     command: /sbin/init
     capabilities:
@@ -22,5 +22,4 @@ platforms:
 provisioner:
   name: ansible
 verifier:
-  name: testinfra
-...
+  name: goss
