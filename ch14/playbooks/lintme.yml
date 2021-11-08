@@ -1,0 +1,14 @@
+#!/usr/bin/env ansible-lint
+---
+- name: Run ansible-lint with the roles
+  hosts: all
+  gather_facts: true
+  become: yes
+
+  roles:
+    - ssh
+    - miniconda
+    - redis
+
+
+
