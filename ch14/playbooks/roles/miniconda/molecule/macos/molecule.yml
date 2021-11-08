@@ -1,0 +1,15 @@
+---
+
+driver:
+  name: delegated
+lint: |
+  set -e
+  yamllint .
+  ansible-lint
+  ansible-later
+platforms:
+  - name: localhost
+provisioner:
+  name: ansible
+verifier:
+  name: ansible
