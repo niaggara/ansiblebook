@@ -1,0 +1,17 @@
+---
+
+vscode_distribution: vscode
+vscode_extensions:
+  - vscode-gitignore
+  - vscode-gitlens
+  - vscode-intellicode
+  - vscode-java
+  - vscode-java-debug
+  - vscode-java-dependency
+  - vscode-java-test
+  - vscode-test-explorer
+  - vscode-spring-boot
+  - vscode-spring-boot-dashboard
+  - vscode-yaml
+  - vscode-xmltools
+...

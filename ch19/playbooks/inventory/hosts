@@ -1,0 +1,7 @@
+[windows]
+windows2022 ansible_port=45985 ansible_host=127.0.0.1
+
+[windows:vars]
+ansible_user=vagrant
+ansible_password=vagrant
+ansible_connection=winrm
