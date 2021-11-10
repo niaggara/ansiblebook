@@ -1,0 +1,33 @@
+---
+roles:
+  - name: infothrill.lynis
+  - src: leonallen22.ansible_role_keybase
+    name: keybase
+  - src: https://github.com/dockpack/base_tailscale.git
+    name: tailscale
+  - src: https://github.com/ansible-community/ansible-vault.git
+    name: hashicorp_vault
+  - src: https://github.com/ansible-community/ansible-consul.git
+    name: hashicorp_consul
+  - name: redhatofficial.rhel8_stig
+  - name: mindpointgroup.rhel7_cis
+    version: 1.2.0
+
+
+collections:
+  - awx.awx
+  - check_point.gaia
+  - check_point.mgmt
+  - cisco.asa
+  - cyberark.conjur
+  - cyberark.pas
+  - fortinet.fortios
+  - ibm.isam
+  - ibm.qradar
+  - junipernetworks.junos
+  - paloaltonetworks.panos
+  - splunk.es
+  - symantec.epm
+  - trendmicro.deepsec
+  - venafi.machine_identity
+...
