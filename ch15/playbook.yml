@@ -1,0 +1,29 @@
+---
+
+- name: Collections playbook
+  hosts: all
+  collections:
+    - our_namespace.her_collection
+
+  tasks:
+    - name: Using her module from her collection
+      her_module:
+        option1: value
+
+    - name: Using her role from her collection
+      import_role:
+        name: her_role
+
+    - name: Using her lookup and her filter plugins from her collection
+      debug:
+        msg: '{{ lookup("her_lookup", "param1") | her_filter }}'
+
+    - name: Create directory
+      become: true
+      become_user: root
+      ansible.builtin.file:
+        path: /etc/my_software
+        state: directory
+        mode: 0755
+
+...
