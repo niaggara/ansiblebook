@@ -1,19 +1,37 @@
 ---
 
-- name: Uninstall choco packages
-  win_chocolatey:
-    name: "{{ uninstall_choco_packages }}"
-    state: absent
-    force: true
+- name: Create developers group
+  win_group:
+    name: developers
 
-- name: Install Google Chrome
-  win_chocolatey:
-    name: googlechrome
-    state: present
+- name: Create user
+  win_user:
+    name: ansible
+    password: '%4UJ[nLbQz*:BJ%9gV|x'
+    groups: developers
+    password_expired: true
+    groups_action: add
 
-- name: Create local directory
+- name: Create a local directory
   win_file:
-    path: "{{ win_local_dir }}"
+    path: 'C:/Tools'
     state: directory
 
+- name: Remove Features
+  win_feature:
+    name: "{{ item }}"
+    state: absent
+  loop: "{{ windows_features_remove }}"
 
+- name: Install IIS Web-Server with sub features and management tools
+  win_feature:
+    name: Web-Server
+    state: present
+    include_sub_features: yes
+    include_management_tools: yes
+  register: win_iis_feature
+
+- name: Reboot if installing Web-Server feature requires it
+  win_reboot:
+  when: win_iis_feature.reboot_required
+...

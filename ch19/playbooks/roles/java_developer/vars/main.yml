@@ -5,3 +5,4 @@ java_minor: "{{ java_minor_version }}"
 
 win_java_home: "{{ win_programs }}jdk1.{{ java_major }}_{{ java_minor }}"
 win_java_path: "{{ win_programs }}jdk{{ java_major }}_{{ java_minor }}\bin"
+...

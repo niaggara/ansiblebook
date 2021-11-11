@@ -1,7 +1,6 @@
+---
+
 windows_features_remove:
   - Telnet-Client
 
-uninstall_choco_packages:
-  - vim
-
-win_local_dir: 'C:/Tools'
+...

@@ -1,0 +1,18 @@
+---
+
+- name: Install Chocolatey
+  win_chocolatey:
+    name: "chocolatey"
+    state: present
+
+- name: Uninstall Choco packages
+  win_chocolatey:
+    name: "{{ uninstall_choco_packages }}"
+    state: absent
+    force: true
+
+- name: Install Choco packages
+  win_chocolatey:
+    name: "{{ install_choco_packages }}"
+    state: present
+...

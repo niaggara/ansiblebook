@@ -1,0 +1,11 @@
+---
+
+uninstall_choco_packages:
+  - vim
+
+install_choco_packages:
+  - git
+  - googlechrome
+  - maven
+
+...

@@ -5,18 +5,7 @@
     path: 'C:\Program Files\Microsoft VS Code\Code.exe'
   register: vscode
 
-- name: Install_chocolatey
-  when: not vscode.stat.exists|bool
-  win_chocolatey:
-    name: "chocolatey"
-
-#  https://github.com/ansible/ansible/issues/53971
-- name: Downgrade chocolatey
-  when: not vscode.stat.exists|bool
-  win_shell: |
-    choco.exe install -y --version 0.10.11 --allow-downgrade chocolatey
-
-- name: Install vscode
+- name: Install VSCode
   when: not vscode.stat.exists|bool
   win_chocolatey:
     name: "{{ vscode_distribution }}"

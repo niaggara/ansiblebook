@@ -1,10 +1,5 @@
 ---
 
-- name: Install Git
-  win_chocolatey:
-    name: git
-    state: present
-
 - name: Install Java8
   win_chocolatey:
     name: "{{ jdk_package }}"
@@ -22,8 +17,4 @@
     elements:
       - "{{ win_java_path }}"
 
-- name: Install Maven
-  win_chocolatey:
-    name: maven
-    state: present
 ...
