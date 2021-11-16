@@ -15,3 +15,8 @@ pylint
 python-vagrant
 requests==2.25.1
 yamllint==1.26.3
+beautifulsoup4
+packaging
+pywinrm
+pypsrp
+
