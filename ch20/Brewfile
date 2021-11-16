@@ -1,5 +1,7 @@
 cask "vagrant"
 cask "virtualbox"
 cask "virtualbox-extension-pack"
+brew "azure-cli"
 brew "packer"
+brew "jq"
 brew "python@3.8"

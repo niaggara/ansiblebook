@@ -1,0 +1,30 @@
+---
+
+- src: leonallen22.ansible_role_keybase
+  name: keybase
+
+- src: https://github.com/dockpack/ansible-auditd.git
+  name: ansible-auditd
+
+- src: dockpack.base_crontab
+  name: crontab
+
+- src: dockpack.base_common
+  name: common
+
+- src: dockpack.base_epel
+  name: epel
+
+- src: dockpack.base_nettime
+  name: nettime
+
+- src: dockpack.base_rsyslog
+  name: rsyslog
+
+- src: dockpack.base_tailscale
+  name: tailscale
+
+- src: dockpack.gpg_agent
+  name: gpg_agent
+
+...
