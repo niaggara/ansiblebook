@@ -26,7 +26,7 @@ Vagrant.configure(2) do |config|
   config.vm.define 'rhel8', autostart: false do |devtop|
     devtop.vm.box = 'RedHat-EL8'
     devtop.vm.hostname = 'vagrant-EL8'
-    devtop.vm.network 'private_network', ip: '192.168.33.8'
+    devtop.vm.network 'private_network', ip: '192.168.56.8'
     devtop.vbguest.auto_update = true
     devtop.vm.synced_folder ".""", "/vagrant", id: "vagrant-root", disabled: false
     devtop.vm.provider :virtualbox do |virtualbox|

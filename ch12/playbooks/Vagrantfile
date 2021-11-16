@@ -18,8 +18,8 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "ubuntu" do |ubuntu|
     ubuntu.vm.box = "ubuntu/focal64"
-    ubuntu.vm.hostname = "ubuntu.192.168.11.10.nip.io"
-    ubuntu.vm.network "private_network", ip: "192.168.12.10"
+    ubuntu.vm.hostname = "ubuntu.192.168.56.10.nip.io"
+    ubuntu.vm.network "private_network", ip: "192.168.56.10"
     ubuntu.vm.provider "virtualbox" do |virtualbox|
       virtualbox.name = "ubuntu"
       virtualbox.customize ["modifyvm", :id, "--memory", "1024"]
@@ -28,8 +28,8 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "fedora" do |fedora|
     fedora.vm.box = "fedora/34-cloud-base"
-    fedora.vm.hostname = "fedora.192.168.11.11.nip.io"
-    fedora.vm.network "private_network", ip: "192.168.12.11"
+    fedora.vm.hostname = "fedora.192.168.56.11.nip.io"
+    fedora.vm.network "private_network", ip: "192.168.56.11"
 	  fedora.vm.provider "virtualbox" do |virtualbox|
       virtualbox.name = "fedora"
       virtualbox.customize ["modifyvm", :id, "--memory", "1024"]
@@ -38,8 +38,8 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "debian" do |debian|
     debian.vm.box = "debian/buster64"
-    debian.vm.hostname = "debian.192.168.11.12.nip.io"
-    debian.vm.network "private_network", ip: "192.168.12.12"
+    debian.vm.hostname = "debian.192.168.56.12.nip.io"
+    debian.vm.network "private_network", ip: "192.168.56.12"
 	  debian.vm.provider "virtualbox" do |virtualbox|
       virtualbox.name = "debian"
       virtualbox.customize ["modifyvm", :id, "--memory", "1024"]
@@ -48,8 +48,8 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "centos" do |centos|
     centos.vm.box = "centos/7"
-    centos.vm.hostname = "centos.192.168.11.13.nip.io"
-    centos.vm.network "private_network", ip: "192.168.12.13"
+    centos.vm.hostname = "centos.192.168.56.13.nip.io"
+    centos.vm.network "private_network", ip: "192.168.56.13"
 	  centos.vm.provider "virtualbox" do |virtualbox|
       virtualbox.name = "centos"
       virtualbox.customize ["modifyvm", :id, "--memory", "1024"]

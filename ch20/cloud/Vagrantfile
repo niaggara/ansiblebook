@@ -1,0 +1,42 @@
+Vagrant.configure("2") do |config|
+
+  config.vm.box = "centos/7"
+  config.vm.box_check_update = true
+  if Vagrant.has_plugin?("vagrant-vbguest")
+    config.vbguest.auto_update = false
+  end
+  config.vm.graceful_halt_timeout=15
+
+  config.ssh.insert_key = false
+  config.ssh.forward_agent = true
+
+  config.vm.provider "virtualbox" do |virtualbox|
+    virtualbox.gui = false
+    virtualbox.customize ["modifyvm", :id, "--memory", 1024]
+    virtualbox.customize ["modifyvm", :id, "--vram", "64"]
+  end
+
+  config.vm.define :bastion do |host_config|
+    host_config.vm.box = "centos/7"
+    host_config.vm.hostname = "bastion"
+    host_config.vm.network "private_network", ip: "192.168.56.20"
+    host_config.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2220, auto_correct: false
+    host_config.vm.synced_folder ".", "/vagrant", id: "vagrant-root", disabled: true
+    host_config.vm.provider "virtualbox" do |vb|
+      vb.name = "bastion"
+      vb.customize ["modifyvm", :id, "--memory", 2048]
+      vb.customize ["modifyvm", :id, "--vram", "64"]
+    end
+  end
+  config.vm.provision :ansible do |ansible|
+    ansible.compatibility_mode = "2.0"
+    # Disable default limit to connect to all the servers
+    ansible.limit = "all"
+    ansible.galaxy_role_file = "ansible/roles/requirements.yml"
+    ansible.galaxy_roles_path = "ansible/roles"
+    ansible.inventory_path = "ansible/inventories/vagrant.ini"
+    ansible.playbook = "ansible/vagrant.yml"
+    ansible.verbose = ""
+  end
+end
+

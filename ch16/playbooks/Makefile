@@ -35,10 +35,10 @@ web:
 
 .PHONY: deploy
 deploy: db web check
-	ssh-keygen -R 192.168.33.10
-	ssh-keygen -R 192.168.33.11
-	ssh-keyscan 192.168.33.10 >> ~/.ssh/known_hosts
-	ssh-keyscan 192.168.33.11 >> ~/.ssh/known_hosts
+	ssh-keygen -R 192.168.56.10
+	ssh-keygen -R 192.168.56.11
+	ssh-keyscan 192.168.56.10 >> ~/.ssh/known_hosts
+	ssh-keyscan 192.168.56.11 >> ~/.ssh/known_hosts
 	vagrant provision
 
 .PHONY: clean
@@ -50,6 +50,6 @@ clean:
 test:
 	@echo 'make test should display this line twice:'
 	@echo '<h2>Congratulations!</h2>'
-	@curl -s -k https://www.192.168.33.10.nip.io/ | grep h2
+	@curl -s -k https://www.192.168.56.10.nip.io/ | grep h2
 
 all: clean update single-host clean across-hosts test

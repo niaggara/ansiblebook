@@ -13,10 +13,10 @@
     settings_path: "{{ proj_path }}/{{ proj_name }}"
     reqs_path: '~/requirements.txt'
     manage: "{{ python }} {{ proj_path }}/manage.py"
-    live_hostname: 192.168.33.10.nip.io
+    live_hostname: 192.168.56.10.nip.io
     domains:
-      - 192.168.33.10.nip.io
-      - www.192.168.33.10.nip.io
+      - 192.168.56.10.nip.io
+      - www.192.168.56.10.nip.io
     repo_url: git@github.com:ansiblebook/mezzanine_example.git
     locale: en_US.UTF-8
     # Variables below don't appear in Mezannine's fabfile.py
@@ -66,7 +66,7 @@
         mode: 0755
 
     ### run this when you run into permission problems:
-    # $  ssh-keygen -R 192.168.33.10
+    # $  ssh-keygen -R 192.168.56.10
     - name: Check out the repository on the host
       git:
         repo: "{{ repo_url }}"
