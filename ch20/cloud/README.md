@@ -19,13 +19,10 @@ az storage account create -n "$ARM_STORAGE_ACCOUNT" \
 - Export environment variables
 
 ```
-export ARM_CLIENT_ID=
-export ARM_CLIENT_SECRET=
 export ARM_RESOURCE_GROUP=
 export ARM_STORAGE_ACCOUNT=
 export ARM_LOCATION=
 export ARM_SUBSCRIPTION_ID=
-export ARM_TENANT_ID=
 ```
 
 # Configure Google Cloud:
