@@ -52,7 +52,7 @@ build {
   provisioner "ansible-local" {
     extra_arguments = ["--extra-vars \"image=${var.image}\""]
     playbook_dir    = "./ansible"
-    playbook_file   = "ansible/packer.yml"
+    playbook_file   = "ansible/playbook.yml"
   }
 
   provisioner "shell" {
