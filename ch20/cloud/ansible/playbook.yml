@@ -1,7 +1,6 @@
 #!/usr/bin/env ansible-playbook
 ---
-# This playbook is run from packer during kickstart (phase 1)
-- hosts: 127.0.0.1
+- hosts: all:127.0.0.1
   gather_facts: true
   become: true
 
