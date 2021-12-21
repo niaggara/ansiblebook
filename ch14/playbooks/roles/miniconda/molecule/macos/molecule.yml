@@ -2,6 +2,10 @@
 
 driver:
   name: delegated
+  options:
+    managed: false
+    ansible_connection_options:
+      ansible_connection: local
 lint: |
   set -e
   yamllint .
