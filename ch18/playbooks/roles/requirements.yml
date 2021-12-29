@@ -2,3 +2,6 @@
 
 - src: robertdebock.bootstrap
   name: bootstrap
+
+- src: mindpointgroup.rhel7_cis
+  name: rhel7_cis
