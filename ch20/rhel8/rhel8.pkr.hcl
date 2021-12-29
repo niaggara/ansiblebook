@@ -13,11 +13,6 @@ variable "iso_checksum" {
   default = "sha256:48f955712454c32718dcde858dea5aca574376a1d7a4b0ed6908ac0b85597811"
 }
 
-variable "version" {
-  type    = string
-  default = "8.4.${env("DATE")}"
-}
-
 source "virtualbox-iso" "rhel8" {
   boot_command           = ["<tab> text inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"]
   boot_wait              = "5s"
@@ -37,7 +32,6 @@ source "virtualbox-iso" "rhel8" {
   nested_virt            = true
   shutdown_command       = "echo 'vagrant' | sudo -S /sbin/halt -h -p"
   ssh_password           = "vagrant"
-  ssh_port               = 22
   ssh_username           = "root"
   ssh_wait_timeout       = "10000s"
   rtc_time_base          = "UTC"
