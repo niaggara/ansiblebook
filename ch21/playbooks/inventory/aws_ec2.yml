@@ -26,6 +26,6 @@ regions:
   - us-west-2
 
 # Ignores 403 errors rather than failing
-strict_permissions: False
+strict_permissions: false
 
 ...
