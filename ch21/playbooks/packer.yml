@@ -1,0 +1,20 @@
+#!/usr/bin/env ansible-playbook
+---
+- hosts: all:127.0.0.1
+  gather_facts: true
+  become: true
+
+  vars:
+    # yamllint disable-line rule:line-length
+    chrony_key: '1234 SHA256 HEX:DD4E59D2CAE16FFCEBF23D67201814A2FA63251E1B23A1AF3A99203121807C6C'
+    net_allow:
+      - '10.1.0.0/16'
+      - '192.168.0.0/16'
+
+  roles:
+    - {role: common, tags: common}
+    - {role: epel, tags: epel}
+    - {role: nettime, tags: nettime}
+    - {role: rsyslog, tags: syslog}
+    - {role: crontab, tags: crontab}
+...
