@@ -1,0 +1,30 @@
+#!/usr/bin/env ansible-playbook
+---
+
+- name: Add tags to existing instances
+  hosts: localhost
+  vars:
+    web_production:
+      - i-1234567890abcdef0
+      - i-1234567890abcdef1
+    web_staging:
+      - i-abcdef01234567890
+      - i-33333333333333333
+
+  tasks:
+    - name: Tag production webservers
+      ec2_tag:
+        resource: "{{ item }}"
+        region: "{{ lookup('env','AWS_REGION') }}"
+      args:
+        tags: { type: web, env: production }
+      loop: "{{ web_production }}"
+
+    - name: Tag staging webservers
+      ec2_tag:
+        resource: "{{ item }}"
+        region: "{{ lookup('env','AWS_REGION') }}"
+      args:
+        tags: { type: web, env: staging }
+      loop: "{{ web_staging }}"
+...
