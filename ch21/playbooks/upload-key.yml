@@ -1,0 +1,18 @@
+#!/usr/bin/env ansible-playbook
+---
+- name: Register SSH keypair
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+
+    - name: Upload public key
+      amazon.aws.ec2_key:
+        name: ec2key
+        key_material: "{{ item }}"
+        state: present
+        force: true
+      no_log: true
+      with_file:
+        - ~/.ssh/ec2key.pub
+...
