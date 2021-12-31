@@ -1,0 +1,118 @@
+#!/usr/bin/env ansible-playbook -v
+---
+
+- name: Provision Ubuntu Web Server on Amazon EC2
+  hosts: localhost
+  gather_facts: false
+
+  vars:
+    instance_type: t2.micro
+    key_name: ec2key
+    aws_region: "{{ lookup('env', 'AWS_REGION') }}"
+    security_group: my_security_group
+
+  tasks:
+
+    - name: Upload public key ec2key.pub
+      amazon.aws.ec2_key:
+        name: "{{ key_name }}"
+        key_material: "{{ item }}"
+        state: present
+        force: true
+      no_log: true
+      with_file:
+        - ~/.ssh/ec2key.pub
+
+    - name: Configure my_security_group
+      amazon.aws.ec2_group:
+        name: "{{ security_group }}"
+        region: "{{ aws_region }}"
+        description: SSH and Web Access
+        rules:
+          - proto: tcp
+            from_port: 22
+            to_port: 22
+            cidr_ip: '0.0.0.0/0'
+          - proto: tcp
+            from_port: 80
+            to_port: 80
+            cidr_ip: 0.0.0.0/0
+          - proto: tcp
+            from_port: 443
+            to_port: 443
+            cidr_ip: 0.0.0.0/0
+        rules_egress:
+          - proto: tcp
+            from_port: 443
+            to_port: 443
+            cidr_ip: 0.0.0.0/0
+          - proto: tcp
+            from_port: 80
+            to_port: 80
+            cidr_ip: 0.0.0.0/0
+
+    - name: Gather information on Ubuntu AMIs published by Canonical
+      amazon.aws.ec2_ami_info:
+        region: "{{ aws_region }}"
+        owners: 099720109477
+        filters:
+          name: "ubuntu/images/hvm-ssd/ubuntu-focal-20.04-*"
+          architecture: "x86_64"
+          root-device-type: "ebs"
+          virtualization-type: "hvm"
+          state: "available"
+      register: ec2_ami_info
+
+    - name: Sort the list of AMIs by date for the latest image
+      set_fact:
+        latest_ami: |
+          {{ ec2_ami_info.images | sort(attribute='creation_date') | last }}
+
+    - name: Configure and start EC2 instance
+      amazon.aws.ec2_instance:
+        region: "{{ aws_region }}"
+        name: 'web1'
+        image_id: "{{ latest_ami.image_id }}"
+        instance_type: "{{ instance_type }}"
+        key_name: "{{ key_name }}"
+        security_group: "{{ security_group }}"
+        network:
+          assign_public_ip: true
+        tags:
+          type: web
+          env: production
+        volumes:
+          - device_name: /dev/sda1
+            ebs:
+              volume_size: 16
+              delete_on_termination: true
+        wait: true
+      register: ec2
+
+    - name: Wait for EC2 instance to be ready
+      wait_for:
+        host: "{{ item.public_dns_name }}"
+        port: 22
+        search_regex: OpenSSH
+        delay: 30
+      loop: "{{ ec2.instances }}"
+      register: wait
+
+    - name: Add the instances to the web and production groups
+      add_host:
+        hostname: "{{ item.public_dns_name }}"
+        groupname:
+          - web
+          - production
+      loop: "{{ ec2.instances }}"
+
+- name: Configure Web Server
+  hosts: web:&production
+  become: true
+  gather_facts: true
+  remote_user: ubuntu
+
+  roles:
+    - webserver
+
+...
