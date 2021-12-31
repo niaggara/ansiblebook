@@ -1,0 +1,29 @@
+#!/usr/bin/env ansible-playbook
+---
+
+- name: Find latest Ubuntu image on Amazon EC2
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+    - name: Gather information on Ubuntu AMIs published by Canonical
+      amazon.aws.ec2_ami_info:
+        owners: 099720109477
+        filters:
+          name: "ubuntu/images/hvm-ssd/ubuntu-focal-20.04-*"
+          architecture: "x86_64"
+          root-device-type: "ebs"
+          virtualization-type: "hvm"
+          state: "available"
+      register: ec2_ami_info
+
+    - name: Sort the list of AMIs by date for the latest image
+      set_fact:
+        latest_ami: |
+          {{ ec2_ami_info.images | sort(attribute='creation_date') | last }}
+
+    - name: Display the latest AMI ID
+      debug:
+        var: latest_ami.image_id
+
+...
