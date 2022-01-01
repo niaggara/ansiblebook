@@ -1,0 +1,63 @@
+---
+- name: Create EC2 Security Groups
+  hosts: localhost
+  vars:
+    aws_region: "{{ lookup('env', 'AWS_REGION') }}"
+    database_port: 5432
+    cidrs:
+      web: 10.0.0.0/24
+      db: 10.0.1.0/24
+      ssh: 0.0.0.0/0
+
+  tasks:
+
+    - name: DB security group
+      amazon.aws.ec2_group:
+        name: db
+        region: "{{ aws_region }}"
+        description: allow database access for web servers
+        vpc_id: "{{ vpc_id }}"
+        rules:
+          - proto: tcp
+            from_port: "{{ database_port }}"
+            to_port: "{{ database_port }}"
+            cidr_ip: "{{ cidrs.web }}"
+
+    - name: Web security group
+      amazon.aws.ec2_group:
+        name: web
+        region: "{{ aws_region }}"
+        description: allow http and https access to web servers
+        vpc_id: "{{ vpc_id }}"
+        rules:
+          - proto: tcp
+            from_port: 80
+            to_port: 80
+            cidr_ip: 0.0.0.0/0
+          - proto: tcp
+            from_port: 443
+            to_port: 443
+            cidr_ip: 0.0.0.0/0
+
+    - name: SSH security group
+      amazon.aws.ec2_group:
+        name: ssh
+        region: "{{ aws_region }}"
+        description: allow ssh access
+        vpc_id: "{{ vpc_id }}"
+        rules:
+          - proto: tcp
+            from_port: 22
+            to_port: 22
+            cidr_ip: "{{ cidrs.ssh }}"
+
+    - name: Outbound security group
+      amazon.aws.ec2_group:
+        name: outbound
+        description: allow outbound connections to the internet
+        region: "{{ aws_region }}"
+        vpc_id: "{{ vpc_id }}"
+        rules_egress:
+          - proto: all
+            cidr_ip: 0.0.0.0/0
+...
