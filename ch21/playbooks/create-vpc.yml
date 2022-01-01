@@ -1,0 +1,58 @@
+#!/usr/bin/env ansible-playbook
+---
+- name: Create an Virtual Private Cloud (VPC)
+  hosts: localhost
+  gather_facts: false
+  vars:
+    aws_region: "{{ lookup('env', 'AWS_REGION') }}"
+  tasks:
+
+    - name: Create a vpc
+      amazon.aws.ec2_vpc_net:
+        region: "{{ aws_region }}"
+        name: "Book example"
+        cidr_block: 10.0.0.0/16
+        tags:
+          env: production
+      register: result
+
+    - name: Set vpc_id as fact
+      set_fact:
+        vpc_id: "{{ result.vpc.id }}"
+
+    - name: Add gateway
+      amazon.aws.ec2_vpc_igw:
+        region: "{{ aws_region }}"
+        vpc_id: "{{ vpc_id }}"
+
+    - name: Create web subnet
+      amazon.aws.ec2_vpc_subnet:
+        region: "{{ aws_region }}"
+        vpc_id: "{{ vpc_id }}"
+        cidr: 10.0.0.0/24
+        tags:
+          env: production
+          tier: web
+
+    - name: Create db subnet
+      amazon.aws.ec2_vpc_subnet:
+        region: "{{ aws_region }}"
+        vpc_id: "{{ vpc_id }}"
+        cidr: 10.0.1.0/24
+        tags:
+          env: production
+          tier: db
+
+    - name: Set routes
+      amazon.aws.ec2_vpc_route_table:
+        region: "{{ aws_region }}"
+        vpc_id: "{{ vpc_id }}"
+        tags:
+          purpose: permit-outbound
+        subnets:
+          - 10.0.0.0/24
+          - 10.0.1.0/24
+        routes:
+          - dest: 0.0.0.0/0
+            gateway_id: igw
+...
