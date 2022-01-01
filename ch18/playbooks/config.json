@@ -57,7 +57,7 @@
         "distro": "centos",
         "family": "redhat",
         "gui": false,
-        "box": "centos/8",
+        "box": "centos/stream8",
         "ip_addr": "192.168.56.6",
         "memory": "1024",
         "no_share": true,
