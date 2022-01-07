@@ -26,6 +26,19 @@
         "forwarded_port": "8003"
     },
     {
+        "name": "bullseye",
+        "cpus": 1,
+        "distro": "debian",
+        "family": "debian",
+        "gui": false,
+        "box": "generic/debian11",
+        "ip_addr": "192.168.56.4",
+        "memory": "1024",
+        "no_share": true,
+        "app_port": "80",
+        "forwarded_port": "8004"
+    },
+    {
         "name": "buster",
         "cpus": 1,
         "distro": "debian",
