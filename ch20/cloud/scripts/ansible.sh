@@ -1,6 +1,6 @@
 #!/bin/bash -eux
-major=$(cat /etc/redhat-release | tr -dc '0-9.'|cut -d \. -f1)
-if (($major < 8))
+major=$(tr -dc '0-9.' < /etc/redhat-release|cut -d \. -f1)
+if ((major < 8))
 then
   # Install EPEL repository.
   yum -y --enablerepo=extras install epel-release
