@@ -70,7 +70,7 @@
         "distro": "fedora",
         "family": "redhat",
         "gui": false,
-        "box": "fedora/34-cloud-base",
+        "box": "fedora/35-cloud-base",
         "ip_addr": "192.168.56.7",
         "memory": "1024",
         "no_share": true,
