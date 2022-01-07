@@ -1,18 +1,5 @@
 [
     {
-        "name": "alpine",
-        "cpus": 1,
-        "distro": "alpine",
-        "family": "alpine",
-        "gui": false,
-        "box": "generic/alpine313",
-        "ip_addr": "192.168.56.2",
-        "memory": "1024",
-        "no_share": true,
-        "app_port": "80",
-        "forwarded_port": "8002"
-    },
-    {
         "name": "bionic",
         "cpus": 1,
         "distro": "ubuntu",
