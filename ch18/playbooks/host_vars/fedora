@@ -1,0 +1,4 @@
+---
+# CA certificate key too weak for https://mirrors.fedoraproject.org
+crypto_policy: 'NEXT'
+...

@@ -1,7 +1,8 @@
 ---
 
-- src: robertdebock.bootstrap
-  name: bootstrap
+- src: https://github.com/ansiblebook/ansible_role_ssh.git
+  name: ssh
 
-- src: mindpointgroup.rhel7_cis
-  name: rhel7_cis
+- src: https://github.com/ansiblebook/ansible_role_web.git
+  name: web
+...
