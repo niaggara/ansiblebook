@@ -1,16 +1,15 @@
-[
-    {
+[{
         "name": "bionic",
         "cpus": 1,
         "distro": "ubuntu",
         "family": "debian",
         "gui": false,
         "box": "ubuntu/bionic64",
-        "ip_addr": "192.168.56.3",
+        "ip_addr": "192.168.56.2",
         "memory": "1024",
         "no_share": true,
         "app_port": "80",
-        "forwarded_port": "8003"
+        "forwarded_port": "8002"
     },
     {
         "name": "bullseye",
@@ -19,11 +18,11 @@
         "family": "debian",
         "gui": false,
         "box": "generic/debian11",
-        "ip_addr": "192.168.56.4",
+        "ip_addr": "192.168.56.3",
         "memory": "1024",
         "no_share": true,
         "app_port": "80",
-        "forwarded_port": "8004"
+        "forwarded_port": "8003"
     },
     {
         "name": "buster",
