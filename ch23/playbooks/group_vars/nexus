@@ -1,0 +1,75 @@
+---
+
+# https://github.com/geerlingguy/ansible-role-java
+java_packages:
+  - 'java-1.8.0-openjdk-headless.x86_64'
+
+# https://github.com/ansible-ThoTeam/nexus3-oss
+
+nexus_timezone: 'UTC'
+nexus_admin_password: 'changeme'
+nexus_anonymous_access: true
+nexus_public_hostname: "{{ ansible_fqdn }}"
+nexus_public_scheme: http
+httpd_setup_enable: false
+
+nexus_privileges:
+  - name: all-repos-read
+    description: 'Read & Browse access to all repos'
+    repository: '*'
+    actions:
+      - read
+      - browse
+  - name: company-project-deploy
+    description: 'Deployments to company-project'
+    repository: company-project
+    actions:
+      - add
+      - edit
+nexus_roles:
+  - id: Developers
+    name: developers
+    description: All developers
+    privileges:
+      - nx-search-read
+      - all-repos-read
+      - company-project-deploy
+    roles: []
+nexus_local_users:
+  - username: jenkins # used as key to update
+    first_name: Jenkins
+    last_name: CI
+    email: support@company.com
+    password: "s3cr3t"
+    roles:
+      - Developers
+
+nexus_config_pypi: true
+nexus_config_docker: true
+nexus_config_npm: true
+nexus_config_yum: true
+nexus_config_apt: true
+
+nexus_blobstores:
+  - name: company-artifacts
+    path: /var/nexus/blobs/company-artifacts
+nexus_scheduled_tasks:
+  - name: compact-blobstore
+    cron: '0 0 22 * * ?'
+    typeId: blobstore.compact
+    taskProperties:
+      blobstoreName: 'company-artifacts'
+nexus_repos_maven_proxy:
+  - name: central
+    remote_url: 'https://repo1.maven.org/maven2/'
+    layout_policy: permissive
+nexus_repos_maven_hosted:
+  - name: company-project
+    version_policy: mixed
+    write_policy: allow
+    blob_store: company-artifacts
+nexus_repos_maven_group:
+  - name: public
+    member_repos:
+      - central
+...

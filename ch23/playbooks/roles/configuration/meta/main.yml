@@ -1,4 +1,5 @@
 ---
+# Standards: 0.2
 galaxy_info:
   author: Bas Meijer
   description: CICD Demo
@@ -15,3 +16,4 @@ galaxy_info:
   galaxy_tags: []
 
 dependencies: []
+...

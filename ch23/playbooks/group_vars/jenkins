@@ -1,0 +1,45 @@
+---
+
+jenkins_git_path: ansiblebook
+jenkins_git_repositories:
+  - ansible_role_ssh
+  - ansible_role_web
+
+base_utils:
+  - unzip
+  - git
+
+# https://github.com/geerlingguy/ansible-role-docker 
+docker_users:
+  - jenkins
+  - vagrant
+
+# https://github.com/geerlingguy/ansible-role-java
+java_packages:
+  - java-11-openjdk-devel
+
+# https://github.com/geerlingguy/ansible-role-jenkins
+jenkins_hostname: "{{ ansible_fqdn }}"
+jenkins_prefer_lts: true
+
+jenkins_plugins:
+  - ansible
+  - ansible-tower
+  - ansicolor
+  - configuration-as-code
+  - docker
+  - docker-build-step
+  - docker-workflow
+  - git
+  - gitea
+  - job-dsl
+  - pipeline-build-step
+  - pipeline-rest-api
+  - pipeline-stage-view
+  - promoted-builds
+  - timestampe
+  - ws-cleanup
+  - workflow-aggregator
+  - workflow-cps
+
+...

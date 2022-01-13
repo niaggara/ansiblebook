@@ -42,7 +42,7 @@
     line: 'JENKINS_JAVA_OPTIONS="-Djava.awt.headless=true -Dcasc.jenkins.config=/var/lib/jenkins/casc_configs"'
     state: present
     mode: 0600
-  notify: restart jenkins
+  notify: Restart Jenkins
 
 - name: Flush handlers
   meta: flush_handlers
@@ -56,5 +56,7 @@
 
 - name: Activate jobs configuration with Jenkins CLI
   command: java -jar jenkins-cli.jar -s http://127.0.0.1:8080/ -auth admin:{{ jenkins_admin_password }} reload-jcasc-configuration
+  changed_when: true
   args:
     chdir: /var/lib/jenkins
+...

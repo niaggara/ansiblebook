@@ -1,0 +1,54 @@
+#!/usr/bin/env ansible-playbook
+---
+# Standards: 0.2
+- name: Artefact Repository
+  hosts: nexus
+  become: true
+
+  roles:
+    - role: java
+      tags: java
+    - role: nexus
+      tags: nexus
+
+- name: CI Server
+  hosts: jenkins
+  become: true
+  roles:
+    - role: epel
+      tags: epel
+    - role: utils
+      tags: utils
+    - role: java
+    - role: docker
+      tags: docker
+    - role: jenkins
+      tags: jenkins
+    - role: configuration
+      tags: qa
+
+- name: Code Quality
+  hosts: sonar
+  become: true
+  collections:
+    - community.postgres
+  roles:
+    - role: utils
+    - role: java
+    - role: postgres
+      tags: postgres
+    - role: sonarqube
+      tags: sonarqube
+
+- name: Git Server
+  hosts: git
+  become: true
+  collections:
+    - community.mysql
+  roles:
+    - role: mysql
+      tags: mysql
+    - role: gitea
+      tags: gitea
+
+...

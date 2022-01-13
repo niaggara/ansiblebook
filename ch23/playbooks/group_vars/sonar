@@ -1,0 +1,44 @@
+---
+
+base_utils:
+  - gcc
+  - python38-devel
+  - unzip
+
+# https://github.com/lrk/ansible-role-sonarqube
+sonar_version: '8.9.6.50800'
+sonar_db_embedded: false
+sonar_db_user: 'sonar'
+sonar_db_pass: 'YourPasswordIsBetter'
+sonar_jdbc_url: "jdbc:postgresql://localhost/sonar"
+sonar_plugins:
+  - name: "ansible"
+    version: "2.5.0"
+    marketplace: false
+    commercial: false
+    url: 'https://github.com/sbaudoin/sonar-ansible/releases/download/v2.5.0/sonar-ansible-plugin-2.5.0.jar'
+
+# https://github.com/geerlingguy/ansible-role-java
+java_packages:
+  - java-11-openjdk-devel
+
+# https://github.com/robertdebock/ansible-role-postgres
+postgres_databases:
+  - name: 'sonar'
+    encoding: 'UTF-8'
+postgres_users:
+  - name: 'sonar'
+    password: 'YourPasswordIsBetter'
+    db: 'sonar'
+    state: present
+postgres_hba_entries:
+  - type: local
+    database: all
+    user: all
+    method: peer
+  - type: host
+    database: sonar
+    user: sonar
+    address: 127.0.0.1/32
+    method: trust
+...

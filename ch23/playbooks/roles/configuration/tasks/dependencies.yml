@@ -7,9 +7,9 @@
     state: directory
     mode: 0777
 
-- name: Install dependencies
+- name: Install programming packages
   package:
-    name: "{{ quality_tools }}"
+    name: "{{ programming_packages }}"
     state: present
     update_cache: true
 
@@ -50,7 +50,7 @@
     name: wheel
     extra_args: "--cache-dir={{ pypi_cache }} -i {{ pypi_index }}"
 
-- name: Install requirements
+- name: Install Python libraries
   become: true
   pip:
     requirements: /tmp/requirements.txt
@@ -58,14 +58,11 @@
     extra_args: "--cache-dir={{ pypi_cache }} -i {{ pypi_index }}"
     state: "{{ desired_state | default('present', true) }}"
 
-- name: Install collections
+- name: Install Ansible collections
   become: true
   become_user: jenkins
-  shell: |
-    source /usr/local/bin/activate
-    ansible-galaxy collection install -r /tmp/requirements.yml
+  shell: source /usr/local/bin/activate && ansible-galaxy collection install -r /tmp/requirements.yml
   args:
     creates: /home/jenkins/.ansible/collections/ansible_collections/community/docker
-
 
 ...

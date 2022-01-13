@@ -1,0 +1,53 @@
+[{
+        "app_port": "8081",
+        "box": "centos/stream8",
+        "cpus": 4,
+        "distro": "centos",
+        "family": "redhat",
+        "forwarded_port": "8081",
+        "gui": false,
+        "ip_addr": "192.168.56.16",
+        "memory": "8192",
+        "name": "server04",
+        "no_share": true
+    },
+    {
+        "app_port": "8080",
+        "box": "centos/stream8",
+        "cpus": 2,
+        "distro": "centos",
+        "family": "redhat",
+        "forwarded_port": "8080",
+        "gui": false,
+        "ip_addr": "192.168.56.15",
+        "memory": "8192",
+        "name": "server05",
+        "no_share": true
+    },
+    {
+        "app_port": "3000",
+        "box": "centos/stream8",
+        "cpus": 2,
+        "distro": "centos",
+        "family": "redhat",
+        "forwarded_port": "3000",
+        "gui": false,
+        "ip_addr": "192.168.56.14",
+        "memory": "4096",
+        "name": "server06",
+        "no_share": true
+    },
+    {
+        "app_port": "9000",
+        "box": "centos/stream8",
+        "cpus": 2,
+        "distro": "centos",
+        "family": "redhat",
+        "forwarded_port": "9000",
+        "gui": false,
+        "ip_addr": "192.168.56.17",
+        "memory": "8192",
+        "name": "server07",
+        "no_share": true
+    }
+]

@@ -1,0 +1,28 @@
+---
+# https://github.com/roles-ansible/ansible_role_gitea
+gitea_db_host: '127.0.0.1:3306'
+gitea_db_name: 'gitea'
+gitea_db_type: 'mysql'
+gitea_db_password: "YourOwnPasswordIsBetter"
+gitea_require_signin: false
+gitea_fqdn: "{{ ansible_fqdn }}"
+gitea_http_listen: '0.0.0.0'
+gitea_http_port: '3000'
+
+# https://github.com/roles-ansible/ansible_role_mysql
+mysql_bind_address: '127.0.0.1'
+mysql_root_password: ''  # insecure
+
+mysql_user_home: /home/vagrant
+mysql_user_name: vagrant
+mysql_user_password: vagrant
+
+mysql_databases:
+  - name: 'gitea'
+mysql_users:
+  - name: "{{ gitea_db_name }}"
+    password: "{{ gitea_db_password }}"
+    priv: "{{ gitea_db_name }}.*:ALL"
+    state: present
+
+...
