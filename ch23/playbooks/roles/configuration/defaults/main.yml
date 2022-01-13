@@ -1,0 +1,25 @@
+---
+
+casc_configs: /var/lib/jenkins/casc_configs
+jenkins_seed_name: pipeline-seed
+jenkins_seed_template: seed-config.xml.j2
+jenkins_job_template: jobs.groovy.j2
+jenkins_git_host: github.com
+
+jenkins_git_user: jenkins
+
+quality_tools:
+  - gcc
+  - make
+  - python38-devel
+  - python38-cryptography
+
+# /tmp can be restricted by mount options
+pypi_cache: /usr/local/tmp
+pypi_method: http
+pypi_index_port: 8081
+# define pypi_trusted_host to enable pip.conf
+pypi_trusted_host: "{{ pypi_index_host }}"
+pypi_index: "{{ pypi_method }}://{{ pypi_index_host }}:{{ pypi_index_port }}/repository/pypi/simple"
+pypi_index_url: "{{ pypi_method }}://{{ pypi_index_host }}:{{ pypi_index_port }}/repository/pypi/simple"
+...

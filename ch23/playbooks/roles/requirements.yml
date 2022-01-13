@@ -1,0 +1,41 @@
+---
+collections:
+  - awx.awx
+  - community.mysql
+  - community.postgresql
+
+roles:
+
+  - src: ansible-thoteam.nexus3-oss
+    name: nexus
+
+  - src: geerlingguy.repo-epel
+    name: epel
+
+  - src: dockpack.base_utils
+    name: utils
+
+  - src: do1jlr.gitea
+    name: gitea
+
+  - src: do1jlr.mysql
+    name: mysql
+
+  - src: geerlingguy.docker
+    name: docker
+
+  - src: geerlingguy.java
+    name: java
+
+  - src: geerlingguy.jenkins
+    name: jenkins
+
+  - src: geerlingguy.apache
+    name: apache
+
+  - src: lrk.sonarqube
+    name: sonarqube
+
+  - src: robertdebock.postgres
+    name: postgres
+...

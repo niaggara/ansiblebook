@@ -1,0 +1,60 @@
+---
+
+- name: Install dependencies
+  include_tasks: dependencies.yml
+
+- name: Get Jenkins CLI for automation
+  get_url:
+    url: "http://127.0.0.1:8080/jnlpJars/jenkins-cli.jar"
+    dest: /var/lib/jenkins/jenkins-cli.jar
+    mode: 0755
+    timeout: 300
+  retries: 3
+  delay: 10
+
+- name: Create Job DSL plugin seed job
+  template:
+    src: jobs.groovy.j2
+    dest: /home/jenkins/jobs.groovy
+    owner: jenkins
+    mode: 0750
+
+- name: Ensure casc_configs directory exists
+  file:
+    path: "{{ casc_configs }}"
+    state: directory
+    owner: jenkins
+    group: root
+    mode: 0750
+
+- name: Create Jenkins jobs configuration
+  template:
+    src: jenkins.yaml.j2
+    dest: "{{ casc_configs }}/jenkins.yaml"
+    owner: jenkins
+    group: root
+    mode: 0440
+
+- name: Enable configuration as code
+  lineinfile:
+    dest: /etc/sysconfig/jenkins
+    regexp: '^JENKINS_JAVA_OPTIONS="-Djava.awt.headless=true"'
+    line: 'JENKINS_JAVA_OPTIONS="-Djava.awt.headless=true -Dcasc.jenkins.config=/var/lib/jenkins/casc_configs"'
+    state: present
+    mode: 0600
+  notify: restart jenkins
+
+- name: Flush handlers
+  meta: flush_handlers
+
+- name: Wait for Jenkins
+  wait_for:
+    port: 8080
+    state: started
+    delay: 10
+    timeout: 600
+
+- name: Activate jobs configuration with Jenkins CLI
+  command: java -jar jenkins-cli.jar -s http://127.0.0.1:8080/ -auth admin:{{ jenkins_admin_password }} reload-jcasc-configuration
+  args:
+    chdir: /var/lib/jenkins
