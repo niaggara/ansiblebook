@@ -36,10 +36,8 @@ jenkins_plugins:
   - pipeline-build-step
   - pipeline-rest-api
   - pipeline-stage-view
-  - promoted-builds
-  - timestampe
+  - sonar
+  - timestamps
   - ws-cleanup
-  - workflow-aggregator
-  - workflow-cps
 
 ...
