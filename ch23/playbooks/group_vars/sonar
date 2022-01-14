@@ -2,7 +2,9 @@
 
 base_utils:
   - gcc
-  - python38-devel
+  - make
+  - python36-devel
+  - python3-psycopg2
   - unzip
 
 # https://github.com/lrk/ansible-role-sonarqube
