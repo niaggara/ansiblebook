@@ -1,9 +1,16 @@
 ---
 
+# GitHub namespace to clone from
 jenkins_git_path: ansiblebook
+
+# Ansible roles to test in Jenkins
 jenkins_git_repositories:
   - ansible_role_ssh
+  - ansible_role_ansible
   - ansible_role_web
+
+# intended user for ansible
+intended_user: jenkins
 
 base_utils:
   - unzip
