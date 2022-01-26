@@ -22,10 +22,12 @@
     - role: java
     - role: docker
       tags: docker
+    - role: ansible
+      tags: ansible
     - role: jenkins
       tags: jenkins
     - role: configuration
-      tags: qa
+      tags: casc
 
 - name: Code Quality
   hosts: sonar
