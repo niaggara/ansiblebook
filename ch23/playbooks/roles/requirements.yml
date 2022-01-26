@@ -5,6 +5,13 @@ collections:
   - community.postgresql
 
 roles:
+  - src: https://github.com/ansiblebook/ansible_role_ansible.git
+    scm: git
+    name: ansible
+
+  - src: https://github.com/ansiblebook/ansible_role_ssh.git
+    scm: git
+    name: ssh
 
   - src: ansible-thoteam.nexus3-oss
     name: nexus
