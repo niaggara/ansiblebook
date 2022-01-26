@@ -4,8 +4,11 @@ base_utils:
   - gcc
   - make
   - python36-devel
-  - python3-psycopg2
   - unzip
+
+# https://github.com/geerlingguy/ansible-role-java
+java_packages:
+  - java-11-openjdk-devel
 
 # https://github.com/lrk/ansible-role-sonarqube
 sonar_version: '8.9.6.50800'
@@ -19,10 +22,6 @@ sonar_plugins:
     marketplace: false
     commercial: false
     url: 'https://github.com/sbaudoin/sonar-ansible/releases/download/v2.5.0/sonar-ansible-plugin-2.5.0.jar'
-
-# https://github.com/geerlingguy/ansible-role-java
-java_packages:
-  - java-11-openjdk-devel
 
 # https://github.com/robertdebock/ansible-role-postgres
 postgres_databases:

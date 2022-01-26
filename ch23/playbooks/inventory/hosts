@@ -5,7 +5,6 @@ git
 sonar
 
 [vagrant:vars]
-pypi_index_host=server04
 
 [nexus]
 server04

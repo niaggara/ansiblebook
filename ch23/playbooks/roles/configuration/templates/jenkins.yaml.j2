@@ -1,2 +1,42 @@
+## Jenkins Configuration As Code
+# 
+
 jobs:
   - file: /home/jenkins/jobs.groovy
+
+tool:
+  ansibleInstallation:
+    installations:
+    - home: "/usr/local/bin"
+      name: "ansible"
+  git:
+    installations:
+    - home: "git"
+      name: "Default"
+  jdk:
+    installations:
+    - properties:
+      - installSource:
+          installers:
+          - jdkInstaller:
+              acceptLicense: true
+              id: "jdk-8u221-oth-JPR"
+  maven:
+    installations:
+    - name: "Maven3"
+      properties:
+      - installSource:
+          installers:
+          - maven:
+              id: "3.8.4"
+  mavenGlobalConfig:
+    globalSettingsProvider: "standard"
+    settingsProvider: "standard"
+  sonarRunnerInstallation:
+    installations:
+    - name: "SonarScanner"
+      properties:
+      - installSource:
+          installers:
+          - sonarRunnerInstaller:
+              id: "4.6.2.2472"

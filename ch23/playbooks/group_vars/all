@@ -1,7 +1,7 @@
 ---
 jenkins_hostname: "{{ groups['jenkins'][0] | default(inventory_hostname,true) }}"
 pypi_index_host: "{{ groups['nexus'][0] | default('nexus',true) }}"
-sonar_host: "{{ groups['sonar'][0] | default(inventory_hostname,true) }}"
+sonar_host: "{{ groups['sonar'][0] | default('sonar',true) }}"
 sonar_port: 9000
 sonar_method: http
 ...
