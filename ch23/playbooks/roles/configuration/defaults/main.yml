@@ -10,18 +10,4 @@ jenkins_git_host: github.com
 
 jenkins_git_user: jenkins
 
-programming_packages:
-  - gcc
-  - make
-  - python38-devel
-  - python38-cryptography
-
-# /tmp can be restricted by mount options
-pypi_cache: /usr/local/tmp
-pypi_method: http
-pypi_index_port: 8081
-# define pypi_trusted_host to enable pip.conf
-pypi_trusted_host: "{{ pypi_index_host }}"
-pypi_index: "{{ pypi_method }}://{{ pypi_index_host }}:{{ pypi_index_port }}/repository/pypi/simple"
-pypi_index_url: "{{ pypi_method }}://{{ pypi_index_host }}:{{ pypi_index_port }}/repository/pypi/simple"
 ...
