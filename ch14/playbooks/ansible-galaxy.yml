@@ -1,0 +1,47 @@
+#!/usr/bin/env ansible-playbook
+# Install roles from template for use with private git repos
+# Bas Meijer 2022
+---
+
+- name: Install Roles
+  hosts: localhost
+  become: false
+  gather_facts: false
+
+  tasks:
+
+    - name: Create tempdir
+      tempfile:
+        state: directory
+      register: tempdir
+      notify: Cleanup tempdir
+
+    - name: Create requirements.yml
+      template:
+        src: roles/requirements.yml
+        dest: "{{ tempdir.path }}/requirements.yml"
+      notify: Cleanup tempdir
+
+    - name: Galaxy requirements
+      set_fact:
+        repos: "{{ repos|d([]) + (lookup('file', requirements)|from_yaml) }}"
+      vars:
+        requirements: "{{ tempdir.path }}/requirements.yml"
+
+    - name: Clone repos
+      git:
+        repo: "{{ item.src }}"
+        version: "{{ item.version | default(omit, true) }}"
+        dest: "./galaxy_roles/{{ item.name }}"
+        force: "{{ git_force | default(false, true) }}"
+      loop: "{{ repos }}"
+      no_log: true  # expose personal access token
+
+  handlers:
+
+    - name: Cleanup tempdir
+      file:
+        state: absent
+        path: "{{ tempdir.path }}"
+
+...
