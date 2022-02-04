@@ -1,0 +1,31 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+
+UUID = "OGVIFL"
+
+Vagrant.configure(2) do |config|
+  config.vbguest.auto_update = false
+  config.ssh.insert_key = false
+  config.ssh.forward_agent = true
+
+  config.vm.define "junos", autostart: false do |junos|
+    # https://github.com/Juniper/vqfx10k-vagrant
+    junos.vm.box = "juniper/vqfx10k-re"
+    junos.vm.network :forwarded_port, guest: 22, host: 2210, id: 'ssh'
+    junos.vm.synced_folder '.', '/vagrant', disabled: true
+    junos.vm.network 'private_network', auto_config: false, nic_type: '82540EM', virtualbox__intnet: "OGVIFL_vqfx_internal_1"
+  end
+
+  config.vm.define "nxosv", autostart: false do |nxosv|
+    # https://app.vagrantup.com/sysnet4admin/boxes/nxosv_v9
+    nxosv.vm.box = "sysnet4admin/nxosv_v9"
+    nxosv.vm.network :forwarded_port, guest: 443, host: 12443, id: 'https'
+  end
+
+  config.vm.define "vyos", autostart: false do |vyos|
+    # https://app.vagrantup.com/sysnet4admin/boxes/VyOS
+    vyos.vm.box = "sysnet4admin/VyOS"
+    vyos.vm.network :forwarded_port, guest: 22, host: 2202, id: 'ssh'
+  end
+end
