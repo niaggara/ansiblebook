@@ -16,11 +16,15 @@
           role: "Red Hat Enterprise Server"
           usage: "Development/Test"
           service_level_agreement: "Self-Support"
+      tags:
+        - register
 
     - name: Update packages
       yum:
         name: "*"
         state: latest
+      tags:
+        - update
 
   roles:
     - {role: ssh_keys, tags: ssh_keys}
