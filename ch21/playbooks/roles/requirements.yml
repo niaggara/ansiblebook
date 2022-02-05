@@ -1,10 +1,10 @@
 ---
 
-- src: dockpack.base_crontab
-  name: crontab
-
 - src: dockpack.base_common
   name: common
+
+- src: dockpack.base_crontab
+  name: crontab
 
 - src: dockpack.base_epel
   name: epel
