@@ -1,0 +1,15 @@
+#!/usr/bin/env -S ansible-playbook -v
+---
+
+- name: Provisioner
+  hosts: all
+  become: true
+  gather_facts: true
+
+  vars_files:
+    - vars.yml
+
+  roles:
+    - ansible_book_ansible
+    - ansible_book_ssh
+...

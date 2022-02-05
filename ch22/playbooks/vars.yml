@@ -1,0 +1,6 @@
+---
+# vars for packer-playbook.yml
+
+crypto_policy: STRICT
+intended_user: vagrant
+...

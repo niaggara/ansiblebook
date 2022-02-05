@@ -1,0 +1,12 @@
+---
+# install ansible on a hardened system
+- src: https://github.com/ansiblebook/ansible_role_ansible.git
+  name: ansible_book_ansible
+  scm: git
+
+# harden sshs to a crypto_policy
+- src: https://github.com/ansiblebook/ansible_role_ssh.git
+  name: ansible_book_ssh
+  scm: git
+
+...
