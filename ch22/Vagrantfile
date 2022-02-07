@@ -27,7 +27,7 @@ Vagrant.configure(2) do |config|
       ansible.limit = 'bastion'
       ansible.galaxy_role_file = "playbooks/roles/requirements.yml"
       ansible.galaxy_roles_path = "playbooks/roles"
-      ansible.playbook = "playbooks/playbook.yml"
+      ansible.playbook = "playbooks/vagrant-playbook.yml"
       ansible.verbose = "vvv"
       ansible.compatibility_mode = "2.0"
     end

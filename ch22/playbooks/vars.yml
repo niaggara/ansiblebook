@@ -1,6 +1,0 @@
----
-# vars for packer-playbook.yml
-
-crypto_policy: FIPS:OSPP
-intended_user: vagrant
-...

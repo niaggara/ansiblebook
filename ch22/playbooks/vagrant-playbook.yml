@@ -7,7 +7,7 @@
   gather_facts: true
 
   vars:
-    crypto_policy: FIPS:OSPP
+    crypto_policy: STRICT
     intended_user: vagrant
 
   roles:

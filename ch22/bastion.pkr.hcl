@@ -1,5 +1,5 @@
 locals {
-  version = "0.0.2"
+  version = "0.0.3"
 }
 variable "version" {
   type    = string
