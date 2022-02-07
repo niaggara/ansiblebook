@@ -8,17 +8,17 @@ variable "version" {
 
 variable "iso_url1" {
   type    = string
-  default = "file:///Users/Shared/CentOS-Stream-8-x86_64-20220204-dvd1.iso"
+  default = "file:///Users/Shared/rhel-8.5-x86_64-dvd.iso"
 }
 
 variable "iso_url2" {
   type    = string
-  default = "http://ftp.nluug.nl/ftp/pub/os/Linux/distr/CentOS/8-stream/isos/x86_64/CentOS-Stream-8-x86_64-20220204-dvd1.iso"
+  default = "https://developers.redhat.com/content-gateway/file/rhel-8.5-x86_64-dvd.iso"
 }
 
 variable "iso_checksum" {
   type    = string
-  default = "sha256:7debd249b32da6d596bcbe621ebb1a3296bce6057e42ea14f1bcc2e8067571b7"
+  default = "sha256:1f78e705cd1d8897a05afa060f77d81ed81ac141c2465d4763c0382aa96cadd0"
 }
 
 variable "vagrant_cloud_user" {
@@ -64,7 +64,7 @@ build {
   sources = ["source.virtualbox-iso.bastion"]
 
   provisioner "ansible" {
-    playbook_file   = "playbooks/playbook.yml"
+    playbook_file   = "playbooks/packer-playbook.yml"
   }
 
   post-processors {

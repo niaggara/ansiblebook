@@ -1,4 +1,4 @@
-#!/usr/bin/env -S ansible-playbook -v
+#!/usr/bin/env -S ansible-playbook -vv
 ---
 
 - name: Provisioner
@@ -10,6 +10,5 @@
     - vars.yml
 
   roles:
-    - ansible_book_ansible
     - ansible_book_ssh
 ...

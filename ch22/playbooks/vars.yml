@@ -1,6 +1,6 @@
 ---
 # vars for packer-playbook.yml
 
-crypto_policy: STRICT
+crypto_policy: FIPS:OSPP
 intended_user: vagrant
 ...
