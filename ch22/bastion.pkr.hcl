@@ -1,5 +1,5 @@
 locals {
-  version = "0.0.1"
+  version = "0.0.2"
 }
 variable "version" {
   type    = string
@@ -8,17 +8,17 @@ variable "version" {
 
 variable "iso_url1" {
   type    = string
-  default = "file:///Users/Shared/Rocky-8.5-x86_64-dvd1.iso"
+  default = "file:///Users/Shared/CentOS-Stream-8-x86_64-20220204-dvd1.iso"
 }
 
 variable "iso_url2" {
   type    = string
-  default = "https://download.rockylinux.org/pub/rocky/8/isos/x86_64/Rocky-8.5-x86_64-dvd1.iso"
+  default = "http://ftp.nluug.nl/ftp/pub/os/Linux/distr/CentOS/8-stream/isos/x86_64/CentOS-Stream-8-x86_64-20220204-dvd1.iso"
 }
 
 variable "iso_checksum" {
   type    = string
-  default = "sha256:0081f8b969d0cef426530f6d618b962c7a01e71eb12a40581a83241f22dfdc25"
+  default = "sha256:7debd249b32da6d596bcbe621ebb1a3296bce6057e42ea14f1bcc2e8067571b7"
 }
 
 variable "vagrant_cloud_user" {
