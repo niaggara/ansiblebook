@@ -1,9 +1,5 @@
 locals {
-  version = "0.0.3"
-}
-variable "version" {
-  type    = string
-  default = "0.0.1"
+  version = "0.0.4"
 }
 
 variable "iso_url1" {
@@ -40,7 +36,7 @@ source "virtualbox-iso" "bastion" {
   gfx_efi_resolution     = "1920x1080"
   gfx_vram_size          = "128"
   guest_os_type          = "RedHat_64"
-  guest_additions_mode   = "upload"
+  guest_additions_mode   = "disable"
   hard_drive_interface   = "sata"
   headless               = true
   http_directory         = "kickstart"
@@ -73,10 +69,10 @@ build {
       compression_level    = 9
       output               = "output-vagrant/vagrant.box"
   }
-  post-processor "vagrant-cloud" {
-      access_token = "${var.vagrant_cloud_token}"
-      box_tag      = "${var.vagrant_cloud_user}/Bastion"
-      version      = "${local.version}"
-    }
+#  post-processor "vagrant-cloud" {
+#      access_token = "${var.vagrant_cloud_token}"
+#      box_tag      = "${var.vagrant_cloud_user}/Bastion"
+#      version      = "${local.version}"
+#    }
   }
 }

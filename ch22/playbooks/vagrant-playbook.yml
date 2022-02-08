@@ -2,14 +2,13 @@
 ---
 
 - name: Provisioner
-  hosts: all
+  hosts: bastion
   become: true
   gather_facts: true
 
   vars:
-    crypto_policy: STRICT
     intended_user: vagrant
 
   roles:
-    - ansible_book_ssh
+    - ansible_book_ansible
 ...

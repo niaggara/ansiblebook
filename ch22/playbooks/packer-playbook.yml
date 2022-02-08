@@ -9,6 +9,39 @@
   vars:
     crypto_policy: FIPS:OSPP
     intended_user: vagrant
+    home_dir: "/home/{{ intended_user }}"
+
+  pre_tasks:
+
+    - name: Generate 4095 bits RSA key pair for SSH
+      user:
+        name: "{{ intended_user }}"
+        generate_ssh_key: true
+        ssh_key_bits: 4096
+
+    - name: Fetch ssh keys
+      fetch:
+        flat: true
+        src: "{{ home_dir }}/.ssh/{{ item }}"
+        dest: files/
+        mode: 0600
+      loop:
+        - id_rsa
+        - id_rsa.pub
+
+    - name: Install authorized_keys from generated file
+      authorized_key:
+        user: "{{ intended_user }}"
+        state: present
+        key: "{{ lookup('file','files/id_rsa.pub') }}"
+        exclusive: false
+
+    - name: Fix auditd max_log_file_action
+      lineinfile:
+        path: /etc/audit/auditd.conf
+        regexp: '^max_log_file_action'
+        line: max_log_file_action = ROTATE
+        state: present
 
   roles:
     - ansible_book_ssh
