@@ -13,7 +13,7 @@
 
   pre_tasks:
 
-    - name: Generate 4095 bits RSA key pair for SSH
+    - name: Generate 4096 bits RSA key pair for SSH
       user:
         name: "{{ intended_user }}"
         generate_ssh_key: true
@@ -40,9 +40,10 @@
       lineinfile:
         path: /etc/audit/auditd.conf
         regexp: '^max_log_file_action'
-        line: max_log_file_action = ROTATE
+        line: max_log_file_action = rotate
         state: present
 
   roles:
     - ansible_book_ssh
+    - ansible_book_ansible
 ...

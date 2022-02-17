@@ -1,5 +1,5 @@
 locals {
-  version = "0.0.4"
+  version = "0.0.5"
 }
 
 variable "iso_url1" {
@@ -69,10 +69,10 @@ build {
       compression_level    = 9
       output               = "output-vagrant/vagrant.box"
   }
-#  post-processor "vagrant-cloud" {
-#      access_token = "${var.vagrant_cloud_token}"
-#      box_tag      = "${var.vagrant_cloud_user}/Bastion"
-#      version      = "${local.version}"
-#    }
+  post-processor "vagrant-cloud" {
+      access_token = "${var.vagrant_cloud_token}"
+      box_tag      = "${var.vagrant_cloud_user}/Bastion"
+      version      = "${local.version}"
+    }
   }
 }
