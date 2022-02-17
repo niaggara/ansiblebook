@@ -45,7 +45,7 @@
     dest: "{{ mezzanine_settings_path }}/local_settings.py"
     mode: 0750
 
-- name: Apply migrations to create the database, collect static content
+- name: Apply migrations to database, collect static content
   django_manage:
     command: "{{ item }}"
     app_path: "{{ mezzanine_proj_path }}"
