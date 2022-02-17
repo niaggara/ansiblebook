@@ -1,8 +1,8 @@
 [vagrant]
-ubuntu ansible_host=192.168.56.10 ansible_private_key_file=.vagrant/machines/ubuntu/virtualbox/private_key ansible_python_interpreter=/usr/bin/python3
-fedora ansible_host=192.168.56.11 ansible_private_key_file=.vagrant/machines/fedora/virtualbox/private_key ansible_python_interpreter=/usr/bin/python3
-debian ansible_host=192.168.56.12 ansible_private_key_file=.vagrant/machines/debian/virtualbox/private_key ansible_python_interpreter=/usr/bin/python3
+ubuntu ansible_host=192.168.56.10 ansible_private_key_file=.vagrant/machines/ubuntu/virtualbox/private_key
+fedora ansible_host=192.168.56.11 ansible_private_key_file=.vagrant/machines/fedora/virtualbox/private_key
+debian ansible_host=192.168.56.12 ansible_private_key_file=.vagrant/machines/debian/virtualbox/private_key
 
 [vagrant:vars]
 ansible_user=vagrant
-
+ansible_python_interpreter=/usr/bin/python3
