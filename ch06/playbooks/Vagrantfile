@@ -5,7 +5,12 @@ Vagrant.configure("2") do |this|
 
   # Forward ssh-agent for cloning from Github.com
   this.ssh.forward_agent = true
-
+  # disable updating guest additions
+  if Vagrant.has_plugin?("vagrant-vbguest")
+    this.vbguest.auto_update = false
+  end
+  # disable guest additions
+  this.vm.synced_folder '.', '/vagrant', disabled: true
   this.vm.define "web" do |web|
     web.vm.box = "ubuntu/focal64"
     web.vm.hostname = "web"
