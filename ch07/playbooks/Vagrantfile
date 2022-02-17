@@ -9,14 +9,18 @@ Vagrant.configure("2") do |config|
   config.ssh.insert_key = false
   # Forward ssh-agent for cloning from Github.com
   config.ssh.forward_agent = true
+  # disable updating guest additions
+  if Vagrant.has_plugin?("vagrant-vbguest")
+    config.vbguest.auto_update = false
+  end
+  # disable guest additions
+  config.vm.synced_folder '.', '/vagrant', disabled: true
 
   config.vm.define 'db' do |db|
-
     # Create a private network, which allows host-only access to the machine
     # using a specific IP.
     db.vm.network "private_network", ip: "192.168.56.11"
     db.vm.hostname = "db"
-
     db.vm.provider "virtualbox" do |vb|
       vb.name = "db"
       # Use VBoxManage to customize the VM. For example to change memory:
@@ -25,12 +29,10 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.define 'web' do |web|
-
     # Create a private network, which allows host-only access to the machine
     # using a specific IP.
     web.vm.network "private_network", ip: "192.168.56.10"
     web.vm.hostname = "web"
-
     web.vm.provider "virtualbox" do |vb|
       vb.name = "web"
       # Use VBoxManage to customize the VM. For example to change memory:
