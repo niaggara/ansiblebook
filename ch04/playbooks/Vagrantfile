@@ -5,6 +5,12 @@
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  # disable updating guest additions
+  if Vagrant.has_plugin?("vagrant-vbguest")
+    config.vbguest.auto_update = false
+  end
+  # disable guest additions
+  config.vm.synced_folder '.', '/vagrant', disabled: true
   config.vm.define "ubuntu" do |ubuntu|
     ubuntu.vm.box = "ubuntu/focal64"
     ubuntu.vm.network "private_network", ip: "192.168.56.10"
@@ -24,7 +30,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define "debian" do |debian|
     debian.vm.box = "debian/buster64"
     debian.vm.network "private_network", ip: "192.168.56.12"
-	debian.vm.provider "virtualbox" do |virtualbox|
+	  debian.vm.provider "virtualbox" do |virtualbox|
       virtualbox.name = "debian"
     end
   end
