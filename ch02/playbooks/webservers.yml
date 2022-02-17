@@ -1,4 +1,3 @@
----
 - name: Configure webserver with nginx
   hosts: webservers
   become: True
@@ -7,7 +6,9 @@
       package: name=nginx update_cache=yes
 
     - name: Copy nginx config file
-      copy: src=files/nginx.conf dest=/etc/nginx/sites-available/default
+      copy:
+        src: nginx.conf
+        dest: /etc/nginx/sites-available/default
 
     - name: Enable configuration
       file: >
@@ -16,7 +17,9 @@
         state=link
 
     - name: Copy index.html
-      template: src=templates/index.html.j2 dest=/usr/share/nginx/html/index.html
+      template: >
+        src=index.html.j2
+        dest=/usr/share/nginx/html/index.html
 
     - name: Restart nginx
       service: name=nginx state=restarted
