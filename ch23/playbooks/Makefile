@@ -1,4 +1,5 @@
 # Makefile for CI?CD
+all: machine collections roles nexus jenkins git sonar demo
 
 .PHONY: all clean collections roles
 clean:
@@ -30,5 +31,6 @@ sonar:
 	vagrant up --no-provision server07
 	./playbook.yml -l sonar
 
-all: machine collections roles nexus jenkins git sonar
+demo:
 	./open.sh
+
