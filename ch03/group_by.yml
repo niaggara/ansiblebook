@@ -1,22 +1,27 @@
 ---
 
 - name: Group hosts by distribution
-  hosts: myhosts
+  hosts: all
   gather_facts: true
   tasks:
     - name: Create groups based on distro
       group_by:
         key: "{{ ansible_distribution }}"
+
 - name: Do something to Ubuntu hosts
   hosts: Ubuntu
+  become: true
   tasks:
     - name: Install jdk and jre
       apt:
+        update_cache: true
         name:
           - openjdk-11-jdk-headless
           - openjdk-11-jre-headless
+
 - name: Do something else to CentOS hosts
   hosts: CentOS
+  become: true
   tasks:
     - name: Install jdk
       yum:
