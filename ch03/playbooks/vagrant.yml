@@ -4,7 +4,7 @@
 - name: Provision a Vagrant machine
   hosts: localhost
   vars:
-    box: "kalilinux/rolling"
+    box: "centos/stream8"
   tasks:
     - name: Create a Vagrantfile
       command: "vagrant init {{ box }}"
@@ -23,7 +23,7 @@
         ansible_port: 2222
         ansible_user: vagrant
         ansible_private_key_file: >
-          ./.vagrant/machines/default/virtualbox/private_key
+          .vagrant/machines/default/virtualbox/private_key
 
 - name: Do something to the vagrant machine
   hosts: default
