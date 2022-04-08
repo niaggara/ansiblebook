@@ -1,0 +1,4 @@
+key_file: nginx.key
+cert_file: nginx.crt
+conf_file: /etc/nginx/sites-available/default
+server_name: localhost

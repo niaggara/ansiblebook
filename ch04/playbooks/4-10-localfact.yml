@@ -1,4 +1,21 @@
 ---
+- name: Copy Facts
+  hosts: fedora
+  become: true
+  gather_facts: false
+  tasks:
+    - name: Ensure facts.d exists
+      file:
+        path: /etc/ansible/facts.d/
+        state: directory
+        mode: 0755
+
+    - name: Copy example fact
+      copy:
+        src: example.fact
+        dest: /etc/ansible/facts.d/
+        mode: 0644
+
 - name: Print local facts
   hosts: fedora
   tasks:

@@ -1,0 +1,32 @@
+---
+- name: Configure webserver with nginx
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Install nginx
+      package:
+        name: nginx
+        update_cache: true
+      ignore_errors: true
+
+    - name: Start NGinx
+      systemd:
+        name: nginx
+        state: started
+        enabled: true
+        daemon_reload: true
+      ignore_errors: true
+
+    - name: Gather server facts
+      service_facts:
+      ignore_errors: true
+
+    - debug: var=ansible_facts.services.nginx.state
+
+    - name: Set nginx_state
+      when: ansible_facts.services.nginx.state is defined
+      set_fact:
+        nginx_state: "{{ ansible_facts.services.nginx.state }}"
+
+    - debug: var=nginx_state
