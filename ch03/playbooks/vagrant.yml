@@ -4,7 +4,7 @@
 - name: Provision a Vagrant machine
   hosts: localhost
   vars:
-    box: centos/7
+    box: "kalilinux/rolling"
   tasks:
     - name: Create a Vagrantfile
       command: "vagrant init {{ box }}"
