@@ -16,17 +16,17 @@ install:
 
 .PHONY: check
 check:
+	ansible-inventory --graph
 	ansible-inventory --host testserver -i inventory/vagrant.ini
 	ansible-playbook --syntax-check webservers-tls.yml
 	ansible-lint webservers-tls.yml
-	jinjalint templates/
 	vagrant validate
 	git ls-files *.yml | xargs yamllint
 
 update:
 	vagrant box update
 
-up: update
+up:
 	vagrant up --no-provision
 
 .PHONY: no-tls
