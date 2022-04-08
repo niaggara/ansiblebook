@@ -15,7 +15,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vagrant2.vm.network "forwarded_port", guest: 443, host: 8444
   end
   config.vm.define "vagrant3" do |vagrant3|
-    vagrant3.vm.box = "ubuntu/focal64"
+    vagrant3.vm.box = "centos/stream8"
     vagrant3.vm.network "forwarded_port", guest: 80, host: 8082
     vagrant3.vm.network "forwarded_port", guest: 443, host: 8445
   end
