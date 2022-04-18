@@ -6,5 +6,5 @@
     - name: Get services facts
       service_facts:
 
-    - debug: var=ansible_facts.services['sshd.service']
+    - debug: var=ansible_facts['services']['sshd.service']
 ...
