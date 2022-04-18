@@ -5,18 +5,18 @@
   become: true
 
   tasks:
-    - name: Install nginx
+    - name: Ensure nginx is installed
       package:
         name: nginx
         update_cache: true
 
-    - name: Copy nginx config file
+    - name: Manage nginx config file
       copy:
         src: nginx.conf
         dest: /etc/nginx/sites-available/default
         mode: 0644
 
-    - name: Copy index.html
+    - name: Copy home page template
       template:
         src: index.html.j2
         dest: /usr/share/nginx/html/index.html

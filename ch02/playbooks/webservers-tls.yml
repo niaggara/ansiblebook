@@ -20,7 +20,7 @@
         state: restarted
 
   tasks:
-    - name: Install nginx
+    - name: Ensure nginx is installed
       package:
         name: nginx
         update_cache: true
@@ -43,7 +43,7 @@
         - "{{ cert_file }}"
       notify: Restart nginx
 
-    - name: Install nginx config template
+    - name: Manage nginx config template
       template:
         src: nginx.conf.j2
         dest: "{{ conf_file }}"

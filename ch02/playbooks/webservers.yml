@@ -2,7 +2,7 @@
   hosts: webservers
   become: True
   tasks:
-    - name: Install nginx
+    - name: Ensure nginx is installed
       package: name=nginx update_cache=yes
 
     - name: Copy nginx config file
@@ -10,13 +10,13 @@
         src: nginx.conf
         dest: /etc/nginx/sites-available/default
 
-    - name: Enable configuration
+    - name: Manage configuration
       file: >
         dest=/etc/nginx/sites-enabled/default
         src=/etc/nginx/sites-available/default
         state=link
 
-    - name: Copy index.html
+    - name: Copy home page template
       template: >
         src=index.html.j2
         dest=/usr/share/nginx/html/index.html
