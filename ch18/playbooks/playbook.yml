@@ -29,8 +29,5 @@
   become: true
 
   roles:
-    - role: ssh
-      tags: ssh
-    - role: web
-      tags: web
+    - role: java
 ...
