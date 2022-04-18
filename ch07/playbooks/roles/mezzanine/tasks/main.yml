@@ -14,5 +14,6 @@
       - python3-venv
       - supervisor
 
+- include_tasks: setup.yml
 - include_tasks: django.yml
 ...
