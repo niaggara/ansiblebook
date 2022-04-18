@@ -3,12 +3,14 @@
   hosts: ubuntu
   gather_facts: true
   become: true
+  vars:
+    stat_key: mode
   tasks:
     - name: Determine file properties
       stat:
         path: /etc/ssh/sshd_config
       register: result
 
-    - name: Display result.stat
-      debug: var=result.stat
+    - name: Display result.stat detail
+      debug: var=result['stat'][stat_key]
 ...
