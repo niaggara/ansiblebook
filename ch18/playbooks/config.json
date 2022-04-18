@@ -61,7 +61,7 @@
         "memory": "1024",
         "no_share": true,
         "app_port": "80",
-        "forwarded_port": "8006"
+        "forwarded_port": "8161"
     },
     {
         "name": "fedora",
