@@ -7,10 +7,10 @@
       debug:
         msg: >-
           os_family:
-          {{ ansible_os_family }},
+          {{ ansible_facts.os_family }},
           distro:
-          {{ ansible_distribution }}
-          {{ ansible_distribution_version }},
+          {{ ansible_facts.distribution }}
+          {{ ansible_facts.distribution_version }},
           kernel:
-          {{ ansible_kernel }}
+          {{ ansible_facts.kernel }}
 ...
