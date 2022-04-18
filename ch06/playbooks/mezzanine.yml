@@ -131,8 +131,9 @@
       command: >
         openssl req -new -x509 -nodes -out {{ proj_name }}.crt
         -keyout {{ proj_name }}.key -subj '/CN={{ domains[0] }}' -days 365
-        chdir={{ conf_path }}
-        creates={{ conf_path }}/{{ proj_name }}.crt
+      args:
+        chdir: "{{ conf_path }}"
+        creates: "{{ conf_path }}/{{ proj_name }}.crt"
       when: tls_enabled
       notify: Restart nginx
 
@@ -192,6 +193,7 @@
         command: createdb --noinput --nodata
         app_path: "{{ proj_path }}"
         virtualenv: "{{ venv_path }}"
+      failed_when: false
       tags:
         - createdb
 
@@ -200,6 +202,7 @@
         command: "{{ item }}"
         app_path: "{{ proj_path }}"
         virtualenv: "{{ venv_path }}"
+      failed_when: false
       with_items:
         - migrate
         - collectstatic
