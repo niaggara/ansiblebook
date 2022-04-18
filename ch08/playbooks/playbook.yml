@@ -62,7 +62,7 @@
 
     - name: Look up TXT record
       debug:
-        msg: "{{ lookup('dnstxt', 'ansiblebook.com') }}"
+        msg: "{{ lookup('dig', 'ansiblebook.com', 'qtype=TXT') }}"
 
     - name: Look up values in Redis
       environment:
