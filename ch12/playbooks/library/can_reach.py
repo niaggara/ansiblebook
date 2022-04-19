@@ -17,7 +17,7 @@ options:
   port:
     description:
       - The TCP port number
-      required: true
+    required: true
   timeout:
     description:
       - The amount of time trying to connect before giving up, in seconds
