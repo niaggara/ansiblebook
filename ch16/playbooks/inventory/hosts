@@ -3,4 +3,4 @@ web ansible_host=192.168.56.10
 db ansible_host=192.168.56.11
 [all:vars]
 ansible_user=vagrant
-
+ansible_private_key_file=~/.vagrant.d/insecure_private_key
