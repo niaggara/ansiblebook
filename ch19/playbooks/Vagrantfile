@@ -46,5 +46,8 @@ Vagrant.configure("2") do |config|
     ansible.galaxy_roles_path = "roles"
     ansible.inventory_path = "inventory/vagrant.ini"
     ansible.verbose = "v"
+    ansible.groups = {
+      "windows" => ["windows2022"]
+    }
   end
 end

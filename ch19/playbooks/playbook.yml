@@ -2,7 +2,7 @@
 ---
 
 - name: Setup machine for Java development
-  hosts: all
+  hosts: windows
   gather_facts: false
   vars:
 
