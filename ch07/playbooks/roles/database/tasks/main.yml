@@ -5,11 +5,7 @@
   apt:
     update_cache: true
     cache_valid_time: 3600
-    pkg:
-      - acl  # for become_user: postgres
-      - libpq-dev
-      - postgresql
-      - python3-psycopg2
+    pkg: "{{ postgres_packages }}"
 
 - name: Copy configuration file
   become: true

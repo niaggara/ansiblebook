@@ -1,3 +1,7 @@
 ---
-database_port: 5432
+postgres_packages:
+  - acl  # for become_user: postgres
+  - libpq-dev
+  - postgresql
+  - python3-psycopg2
 ...
