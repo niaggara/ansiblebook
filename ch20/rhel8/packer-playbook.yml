@@ -5,23 +5,20 @@
   become: true
   gather_facts: false
 
-  tasks:
+  pre_tasks:
     - name: Register RHEL 8
       redhat_subscription:
         state: present
         username: "{{ lookup('env','RH_USER') }}"
         password: "{{ lookup('env','RH_PASS') }}"
-        pool_ids: "{{ lookup('env','RH_POOL') }}"
+        auto_attach: true
+        force_register: true
         syspurpose:
           role: "Red Hat Enterprise Server"
           usage: "Development/Test"
           service_level_agreement: "Self-Support"
 
-    - name: Install packages
-      yum:
-        name: "{{ item }}"
-        state: present
-      loop:
-        - podman
-        - skopeo
+  roles:
+    - role: vscode
+
 ...
