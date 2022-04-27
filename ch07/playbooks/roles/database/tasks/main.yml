@@ -14,7 +14,7 @@
 - name: Copy configuration file
   become: true
   template:
-    src: postgresql.conf
+    src: postgresql.conf.j2
     dest: /etc/postgresql/12/main/postgresql.conf
     owner: postgres
     group: postgres
