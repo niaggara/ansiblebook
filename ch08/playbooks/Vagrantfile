@@ -11,15 +11,26 @@ Vagrant.configure("2") do |this|
   end
   # disable guest additions
   this.vm.synced_folder '.', '/vagrant', disabled: true
-  this.vm.define "web" do |web|
+  this.vm.define "dev" do |web|
     web.vm.box = "ubuntu/focal64"
-    web.vm.hostname = "web"
+    web.vm.hostname = "dev"
     # This IP is used in the playbook
     web.vm.network "private_network", ip: "192.168.56.10"
     web.vm.network "forwarded_port", guest: 80, host: 8000
     web.vm.network "forwarded_port", guest: 443, host: 8443
     web.vm.provider "virtualbox" do |virtualbox|
-      virtualbox.name = "web"
+      virtualbox.name = "dev"
+    end
+  end
+  this.vm.define "prod" do |web|
+    web.vm.box = "ubuntu/focal64"
+    web.vm.hostname = "prod"
+    # This IP is used in the playbook
+    web.vm.network "private_network", ip: "192.168.56.11"
+    web.vm.network "forwarded_port", guest: 80, host: 9000
+    web.vm.network "forwarded_port", guest: 443, host: 9443
+    web.vm.provider "virtualbox" do |virtualbox|
+      virtualbox.name = "prod"
     end
   end
 end

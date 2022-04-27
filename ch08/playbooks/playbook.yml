@@ -13,7 +13,7 @@
         mode: 0644
 
 - name: Chapter 8 examples
-  hosts: web
+  hosts: dev,prod
 
   tasks:
     - name: Add my public key for SSH
@@ -92,7 +92,7 @@
         - cat files/turing.txt
 
 - name: Chapter 8 examples
-  hosts: web
+  hosts: dev,prod
   vars:
     list_of_packages:
       - git

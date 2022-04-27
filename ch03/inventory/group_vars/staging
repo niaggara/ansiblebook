@@ -1,0 +1,7 @@
+---
+db_primary_host: chicago.example.com
+db_replica_host: amsterdam.example.com
+db_name: widget_staging
+db_user: widgetuser
+db_password: L@4Ryz8cRUXedj
+rabbitmq_host: chicago.example.com
