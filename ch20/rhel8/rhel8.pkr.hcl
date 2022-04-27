@@ -1,16 +1,16 @@
 variable "iso_url1" {
   type    = string
-  default = "file:///Users/Shared/rhel-8.4-x86_64-dvd.iso"
+  default = "file:///Users/Shared/rhel-8.5-x86_64-dvd.iso"
 }
 
 variable "iso_url2" {
   type    = string
-  default = "https://developers.redhat.com/content-gateway/file/rhel-8.4-x86_64-dvd.iso"
+  default = "https://developers.redhat.com/content-gateway/file/rhel-8.5-x86_64-dvd.iso"
 }
 
 variable "iso_checksum" {
   type    = string
-  default = "sha256:48f955712454c32718dcde858dea5aca574376a1d7a4b0ed6908ac0b85597811"
+  default = "sha256:1f78e705cd1d8897a05afa060f77d81ed81ac141c2465d4763c0382aa96cadd0"
 }
 
 source "virtualbox-iso" "rhel8" {
