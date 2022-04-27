@@ -56,7 +56,7 @@
         dest: /usr/share/nginx/html/index.html
         mode: 0644
 
-    - name: Flush handlers
+    - name: Restart nginx
       meta: flush_handlers
 
     - name: "Test it! https://localhost:8443/index.html"
