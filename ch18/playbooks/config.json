@@ -7,7 +7,7 @@
         "box": "ubuntu/bionic64",
         "ip_addr": "192.168.56.2",
         "memory": "1024",
-        "no_share": true,
+        "no_share": false,
         "app_port": "80",
         "forwarded_port": "8002"
     },
@@ -20,7 +20,7 @@
         "box": "generic/debian11",
         "ip_addr": "192.168.56.3",
         "memory": "1024",
-        "no_share": true,
+        "no_share": false,
         "app_port": "80",
         "forwarded_port": "8003"
     },
@@ -33,7 +33,7 @@
         "box": "generic/debian10",
         "ip_addr": "192.168.56.4",
         "memory": "1024",
-        "no_share": true,
+        "no_share": false,
         "app_port": "80",
         "forwarded_port": "8004"
     },
@@ -46,7 +46,7 @@
         "box": "centos/7",
         "ip_addr": "192.168.56.5",
         "memory": "2048",
-        "no_share": true,
+        "no_share": false,
         "app_port": "80",
         "forwarded_port": "8005"
     },
@@ -59,7 +59,7 @@
         "box": "centos/stream8",
         "ip_addr": "192.168.56.6",
         "memory": "1024",
-        "no_share": true,
+        "no_share": false,
         "app_port": "80",
         "forwarded_port": "8161"
     },
@@ -72,7 +72,7 @@
         "box": "fedora/35-cloud-base",
         "ip_addr": "192.168.56.7",
         "memory": "1024",
-        "no_share": true,
+        "no_share": false,
         "app_port": "80",
         "forwarded_port": "8007"
     },
@@ -85,7 +85,7 @@
         "box": "ubuntu/focal64",
         "ip_addr": "192.168.56.8",
         "memory": "1024",
-        "no_share": true,
+        "no_share": false,
         "app_port": "80",
         "forwarded_port": "8008"
     },
@@ -98,7 +98,7 @@
         "box": "ubuntu/hirsute64",
         "ip_addr": "192.168.56.9",
         "memory": "1024",
-        "no_share": true,
+        "no_share": false,
         "app_port": "80",
         "forwarded_port": "8009"
     },
@@ -111,7 +111,7 @@
         "box": "ubuntu/impish64",
         "ip_addr": "192.168.56.10",
         "memory": "1024",
-        "no_share": true,
+        "no_share": false,
         "app_port": "80",
         "forwarded_port": "8010"
     },
@@ -124,7 +124,7 @@
         "box": "generic/debian8",
         "ip_addr": "192.168.56.11",
         "memory": "1024",
-        "no_share": true,
+        "no_share": false,
         "app_port": "80",
         "forwarded_port": "8011"
     },
@@ -150,7 +150,7 @@
         "box": "generic/rocky8",
         "ip_addr": "192.168.56.13",
         "memory": "1024",
-        "no_share": true,
+        "no_share": false,
         "app_port": "80",
         "forwarded_port": "8013"
     },
@@ -163,7 +163,7 @@
         "box": "generic/debian9",
         "ip_addr": "192.168.56.14",
         "memory": "1024",
-        "no_share": true,
+        "no_share": false,
         "app_port": "80",
         "forwarded_port": "8014"
     },
@@ -176,7 +176,7 @@
         "box": "ubuntu/xenial64",
         "ip_addr": "192.168.56.15",
         "memory": "1024",
-        "no_share": true,
+        "no_share": false,
         "app_port": "80",
         "forwarded_port": "8015"
     }
