@@ -18,13 +18,6 @@
       tags:
         - register
 
-    - name: Update packages
-      yum:
-        name: "*"
-        state: latest
-      tags:
-        - update
-
   roles:
     - {role: ssh_keys, tags: ssh_keys}
 
